@@ -25,7 +25,7 @@ export default function Login({ navigation }) {
         <Text style={styles.loginText}>Đăng nhập</Text>
       </View>
       <View style={styles.formContainer}>
-        <LoginForm />
+        <LoginForm navigation={navigation} />
       </View>
       <View style={styles.registerContainer}>
         <Text style={styles.registerText}>

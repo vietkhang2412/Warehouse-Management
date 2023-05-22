@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
   },
   formContainer: {
     marginHorizontal: 20,
-    marginTop: 100,
+    marginTop: 110,
   },
   registerContainer: {
     alignItems: "center",
