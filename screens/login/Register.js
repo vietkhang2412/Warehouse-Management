@@ -9,6 +9,7 @@ import {
 import React from "react";
 import LoginForm from "../../components/LoginForm";
 
+
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
@@ -25,7 +26,7 @@ export default function Register({ navigation }) {
         <Text style={styles.loginText}>Đăng ký</Text>
       </View>
       <View style={styles.formContainer}>
-        <LoginForm isSignUp={true} />
+        <LoginForm isSignUp={true} navigation={navigation}/>
       </View>
       <View style={styles.registerContainer}>
         <Text style={styles.registerText}>

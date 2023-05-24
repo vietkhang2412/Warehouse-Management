@@ -5,108 +5,135 @@ import {
   TouchableOpacity,
   Text,
   StyleSheet,
+  Alert
 } from "react-native";
 import { Feather } from "@expo/vector-icons";
+import axios from "axios";
 
-const LoginForm = ({ isSignUp, navigation }) => {
+export default function LoginForm({ isSignUp ,navigation }) {
   const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [pass, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [errors, setErrors] = useState({
-    fullName: "",
-    username: "",
-    password: "",
-    confirmPassword: "",
-  });
+  const [errors, setErrors] = useState({});
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     if (validateLoginForm()) {
-      console.log("Đăng nhập thành công.");
-      navigation.navigate("HomeTab"); // Điều hướng sang màn hình Home
+
+      try {
+        // Gửi yêu cầu lấy danh sách người dùng
+        const response = await axios.get("http://192.168.1.33:3000/users");
+  
+        // Tìm kiếm người dùng với tài khoản tương ứng
+        const user = response.data.find((user) => user.username === username);
+  
+        if (user && user.pass === pass) {
+          console.log("Đăng nhập thành công.");
+          console.log("Họ Tên:", user.fullName);
+          console.log("Tài khoản:", user.username);
+          console.log("Mật khẩu:", user.pass);
+  
+          // Chuyển đến màn hình Home sau khi đăng nhập thành công
+          navigation.navigate("HomeTab");
+        } else {
+          // Hiển thị thông báo lỗi
+          Alert.alert("Thông báo", "Tài khoản hoặc mật khẩu không đúng.");
+        }
+      } catch (error) {
+        console.error("Đăng nhập thất bại:", error);
+      }
     }
   };
 
-  const handleSignUp = () => {
+  const handleSignUp = async () => {
     if (validateSignUpForm()) {
-      console.log("Đăng ký thành công.");
-      console.log("Họ Tên:", fullName);
-      console.log("Tài khoản:", username);
-      console.log("Password:", password);
-      console.log("RePassword", confirmPassword);
+      try {
+      // Kiểm tra tài khoản đã tồn tại hay chưa
+      const checkResponse = await axios.get(`http://192.168.1.33:3000/users?username=${username}`);
+      if (checkResponse.data.length > 0) {
+        Alert.alert("Thông báo", "Tài khoản đã tồn tại.");
+        return;
+      }
+        // Gửi yêu cầu đăng ký mới
+        const response = await axios.post("http://192.168.1.33:3000/users", {
+          fullName,
+          username,
+          pass,
+        });
+        
+        Alert.alert("Thông báo", "Đăng ký thành công.", [
+          {
+            text: "Đăng nhập ngay.",
+            onPress: () => {
+              console.log("Họ Tên:", response.data.fullName);
+              console.log("Tài khoản:", response.data.username);
+              console.log("Mật khẩu:", response.data.password);
+              navigation.navigate("Login");
+            },
+          },
+        ]);
+      } catch (error) {
+        console.error("Đăng ký thất bại:", error);
+      }
     }
   };
-
+  
   const validateLoginForm = () => {
-    const { username, password } = validateCommonFields();
-    return username.isValid && password.isValid;
+    const errors = {};
+
+    if (!username.trim()) {
+      errors.username = "Tài khoản không được để trống!";
+    } else if (username.includes(" ")) {
+      errors.username = "Tài khoản không được chứa dấu cách!";
+    }
+
+    if (!pass.trim()) {
+      errors.password = "Mật khẩu không được để trống!";
+    } else if (pass.includes(" ")) {
+      errors.password = "Mật khẩu không được chứa dấu cách!";
+    } else if (pass.length < 5) {
+      errors.password = "Mật khẩu quá yếu!";
+    }
+
+    setErrors(errors);
+    return Object.keys(errors).length === 0;
   };
 
   const validateSignUpForm = () => {
-    const { username, password, fullName, confirmPassword } =
-      validateCommonFields();
-    return (
-      username.isValid &&
-      password.isValid &&
-      fullName.isValid &&
-      confirmPassword.isValid
-    );
-  };
+    const errors = {};
 
-  const validateCommonFields = () => {
-    let usernameError = "";
-    let passwordError = "";
-    let fullNameError = "";
-    let confirmPasswordError = "";
+    if (!fullName.trim()) {
+      errors.fullName = "Họ tên không được để trống!";
+    } else if (fullName.length > 24) {
+      errors.fullName = "Họ tên quá dài!";
+    } else if (fullName.length <= 15) {
+      errors.fullName = "Họ tên không hợp lệ!";
+    }
 
     if (!username.trim()) {
-      usernameError = "Tài khoản không được để trống!";
+      errors.username = "Tài khoản không được để trống!";
     } else if (username.includes(" ")) {
-      usernameError = "Tài khoản không được chứa dấu cách!";
+      errors.username = "Tài khoản không được chứa dấu cách!";
     }
 
-    if (!password.trim()) {
-      passwordError = "Mật khẩu không được để trống!";
-    } else if (password.includes(" ")) {
-      passwordError = "Mật khẩu không được chứa dấu cách!";
-    } else if (password.length < 5) {
-      passwordError = "Mật khẩu quá yếu!";
+    if (!pass.trim()) {
+      errors.password = "Mật khẩu không được để trống!";
+    } else if (pass.includes(" ")) {
+      errors.password = "Mật khẩu không được chứa dấu cách!";
+    } else if (pass.length < 5) {
+      errors.password = "Mật khẩu quá yếu!";
     }
 
-    if (isSignUp) {
-      if (!fullName.trim()) {
-        fullNameError = "Họ tên không được để trống!";
-      } else if (fullName.length > 24) {
-        fullNameError = "Họ tên quá dài!";
-      } else if (fullName.length <= 15) {
-        fullNameError = "Họ tên không hợp lệ!";
-      }
-
-      if (password !== confirmPassword) {
-        confirmPasswordError = "Xác nhận mật khẩu không khớp!";
-      } else if (!password.trim()) {
-        confirmPasswordError = "Xác nhận mật khẩu không được để trống!";
-      }
+    if (pass !== confirmPassword) {
+      errors.confirmPassword = "Xác nhận mật khẩu không khớp!";
+    } else if (!pass.trim()) {
+      errors.confirmPassword = "Xác nhận mật khẩu không được để trống!";
     }
 
-    setErrors({
-      fullName: fullNameError,
-      username: usernameError,
-      password: passwordError,
-      confirmPassword: confirmPasswordError,
-    });
-
-    return {
-      username: { value: username, isValid: !usernameError },
-      password: { value: password, isValid: !passwordError },
-      fullName: { value: fullName, isValid: !fullNameError },
-      confirmPassword: {
-        value: confirmPassword,
-        isValid: !confirmPasswordError,
-      },
-    };
+    setErrors(errors);
+    return Object.keys(errors).length === 0;
   };
 
   const passwordPlaceholder = isSignUp
@@ -124,9 +151,9 @@ const LoginForm = ({ isSignUp, navigation }) => {
             value={fullName}
             onChangeText={setFullName}
           />
-          {errors.fullName ? (
+          {errors.fullName && (
             <Text style={styles.errorText}>{errors.fullName}</Text>
-          ) : null}
+          )}
         </View>
       )}
       <View>
@@ -137,9 +164,9 @@ const LoginForm = ({ isSignUp, navigation }) => {
           value={username}
           onChangeText={setUsername}
         />
-        {errors.username ? (
+        {errors.username && (
           <Text style={styles.errorText}>{errors.username}</Text>
-        ) : null}
+        )}
       </View>
 
       <Text style={styles.label}>Mật khẩu</Text>
@@ -148,7 +175,7 @@ const LoginForm = ({ isSignUp, navigation }) => {
           style={styles.passwordInput}
           placeholder={passwordPlaceholder}
           secureTextEntry={!showPassword}
-          value={password}
+          value={pass}
           onChangeText={setPassword}
         />
         <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
@@ -159,9 +186,9 @@ const LoginForm = ({ isSignUp, navigation }) => {
           />
         </TouchableOpacity>
       </View>
-      {errors.password ? (
+      {errors.password && (
         <Text style={styles.errorText}>{errors.password}</Text>
-      ) : null}
+      )}
 
       {isSignUp && (
         <View>
@@ -184,9 +211,9 @@ const LoginForm = ({ isSignUp, navigation }) => {
               />
             </TouchableOpacity>
           </View>
-          {errors.confirmPassword ? (
+          {errors.confirmPassword && (
             <Text style={styles.errorText}>{errors.confirmPassword}</Text>
-          ) : null}
+          )}
         </View>
       )}
 
@@ -200,7 +227,7 @@ const LoginForm = ({ isSignUp, navigation }) => {
       </TouchableOpacity>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   label: {
@@ -244,5 +271,3 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
 });
-
-export default LoginForm;

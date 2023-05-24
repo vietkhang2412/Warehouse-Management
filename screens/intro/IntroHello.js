@@ -44,7 +44,7 @@ export default function IntroHello({ navigation }) {
 
       <TouchableOpacity
         style={styles.button}
-        onPress={() => navigation.navigate("IntroThankyou")}
+        onPress={() => navigation.navigate("Login")}
       >
         <Text style={styles.buttonText}>Bắt đầu</Text>
       </TouchableOpacity>

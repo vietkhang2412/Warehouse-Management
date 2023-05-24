@@ -10,7 +10,7 @@ import Product from "./screens/home/Product";
 import Order from "./screens/home/Order";
 import Employee from "./screens/home/Employee";
 import Statistic from "./screens/home/Statistic";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+
 import { Image } from "react-native";
 // Khởi tạo Stack
 const Stack = createStackNavigator();
@@ -23,7 +23,7 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="IntroHello" component={IntroHello} />
-        <Stack.Screen name="IntroThankyou" component={IntroThankyou} />
+
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Register" component={Register} />
         <Stack.Screen name="HomeTab" component={HomeTab} />
@@ -31,7 +31,6 @@ export default function App() {
     </NavigationContainer>
   );
 }
-
 
 function CustomIcon({ source, focused, size, color }) {
   return (
@@ -46,9 +45,6 @@ function CustomIcon({ source, focused, size, color }) {
   );
 }
 
-
-
-
 function HomeTab() {
   return (
     <Tab.Navigator
@@ -58,27 +54,45 @@ function HomeTab() {
           let source;
 
           if (route.name === "SẢN PHẨM") {
-            source = focused ? require("./assets/icons/shop.png") : require("./assets/icons/shop-outline.png");
-            size = focused ? size + 8  : size + 5
+            source = focused
+              ? require("./assets/icons/shop.png")
+              : require("./assets/icons/shop-outline.png");
+            size = focused ? size + 8 : size + 5;
           } else if (route.name === "ĐƠN HÀNG") {
-            source = focused ? require("./assets/icons/paper.png") : require("./assets/icons/paper-outline.png");
-            size = focused ? size + 8  : size + 5
+            source = focused
+              ? require("./assets/icons/paper.png")
+              : require("./assets/icons/paper-outline.png");
+            size = focused ? size + 8 : size + 5;
           } else if (route.name === "NHÂN VIÊN") {
-            source = focused ? require("./assets/icons/group.png") : require("./assets/icons/group-outline.png");
-            size = focused ? size + 8  : size + 5
+            source = focused
+              ? require("./assets/icons/group.png")
+              : require("./assets/icons/group-outline.png");
+            size = focused ? size + 8 : size + 5;
           } else if (route.name === "THỐNG KÊ") {
-            source = focused ? require("./assets/icons/desk.png") : require("./assets/icons/desk-outline.png");
-            
+            source = focused
+              ? require("./assets/icons/desk.png")
+              : require("./assets/icons/desk-outline.png");
           }
 
-          return <CustomIcon source={source} focused={focused} size={size} color={color} />;
+          return (
+            <CustomIcon
+              source={source}
+              focused={focused}
+              size={size}
+              color={color}
+            />
+          );
         },
+        tabBarActiveTintColor: "#00A8AA",
+        tabBarStyle: [
+          {
+           // backgroundColor: "#00A8AA",
+            height: 55,
+            justifyContent: "center",
+            alignItems: "center",
+          },
+        ],
       })}
-      tabBarOptions={{
-        activeTintColor: "#00A8AA",
-        inactiveTintColor: "gray",
-
-      }}
     >
       <Tab.Screen name="SẢN PHẨM" component={Product} />
       <Tab.Screen name="ĐƠN HÀNG" component={Order} />
@@ -87,4 +101,3 @@ function HomeTab() {
     </Tab.Navigator>
   );
 }
-

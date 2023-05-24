@@ -9,6 +9,7 @@ import {
 import React from "react";
 import LoginForm from "../../components/LoginForm";
 
+
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
@@ -25,7 +26,7 @@ export default function Login({ navigation }) {
         <Text style={styles.loginText}>Đăng nhập</Text>
       </View>
       <View style={styles.formContainer}>
-        <LoginForm navigation={navigation} />
+      <LoginForm navigation={navigation}/>
       </View>
       <View style={styles.registerContainer}>
         <Text style={styles.registerText}>
