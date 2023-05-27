@@ -36,7 +36,7 @@ export default function LoginForm({ isSignUp ,navigation }) {
           console.log("Mật khẩu:", user.pass);
   
           // Chuyển đến màn hình Home sau khi đăng nhập thành công
-          navigation.navigate("HomeTab");
+          navigation.navigate("TabBottom");
         } else {
           // Hiển thị thông báo lỗi
           Alert.alert("Thông báo", "Tài khoản hoặc mật khẩu không đúng.");
