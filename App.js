@@ -52,7 +52,6 @@ function HomeTab() {
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           let source;
-
           if (route.name === "SẢN PHẨM") {
             source = focused
               ? require("./assets/icons/shop.png")
@@ -73,7 +72,6 @@ function HomeTab() {
               ? require("./assets/icons/desk.png")
               : require("./assets/icons/desk-outline.png");
           }
-
           return (
             <CustomIcon
               source={source}
@@ -83,10 +81,10 @@ function HomeTab() {
             />
           );
         },
-        tabBarActiveTintColor: "#00A8AA",
+        tabBarActiveTintColor: "white",
         tabBarStyle: [
           {
-           // backgroundColor: "#00A8AA",
+           backgroundColor: "#00A8AA",
             height: 55,
             justifyContent: "center",
             alignItems: "center",

@@ -24,7 +24,7 @@ export default function LoginForm({ isSignUp ,navigation }) {
 
       try {
         // Gửi yêu cầu lấy danh sách người dùng
-        const response = await axios.get("http://192.168.1.33:3000/users");
+        const response = await axios.get("http://192.168.1.37:3000/users");
   
         // Tìm kiếm người dùng với tài khoản tương ứng
         const user = response.data.find((user) => user.username === username);
@@ -51,13 +51,13 @@ export default function LoginForm({ isSignUp ,navigation }) {
     if (validateSignUpForm()) {
       try {
       // Kiểm tra tài khoản đã tồn tại hay chưa
-      const checkResponse = await axios.get(`http://192.168.1.33:3000/users?username=${username}`);
+      const checkResponse = await axios.get(`http://192.168.1.37:3000/users?username=${username}`);
       if (checkResponse.data.length > 0) {
-        Alert.alert("Thông báo", "Tài khoản đã tồn tại.");
+        Alert.alert("Thông báo !", "Tài khoản đã tồn tại.");
         return;
       }
         // Gửi yêu cầu đăng ký mới
-        const response = await axios.post("http://192.168.1.33:3000/users", {
+        const response = await axios.post("http://192.168.1.37:3000/users", {
           fullName,
           username,
           pass,
