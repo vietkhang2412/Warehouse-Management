@@ -1,38 +1,21 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { useState } from "react";
-
 import AddEmployee from "./components/Employee/AddEmployee";
 import AddEmployee2 from "./components/Employee/AddEmployee2";
-
-const StackDemo = createNativeStackNavigator();
 import { Text, View, StatusBar } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Entypo } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
-import { Ionicons } from "@expo/vector-icons";
-import { FontAwesome } from "@expo/vector-icons";
 import Product from "./screens/Product";
 import Bill from "./screens/Bill";
 import Staff from "./screens/Staff";
 import Statistical from "./screens/Statistical";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-
-// Thanks for watching
+import IntroHello from "./screens/intro/IntroHello";
+import IntroThankyou from "./screens/intro/IntroThankyou";
+import Login from "./screens/login/Login";
+import Register from "./screens/login/Register";
+const StackDemo = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
-const screenOptions = {
-  tabBarShowLabel: false,
-  headerShown: false,
-  tabBarStyle: {
-    position: "absolute",
-    bottom: 0,
-    right: 0,
-    left: 0,
-    elevation: 0,
-    height: 60,
-    background: "#fff",
-  },
-};
 
 const TabBottom = () => {
   return (
@@ -152,17 +135,33 @@ const TabBottom = () => {
   );
 };
 
+const screenOptions = {
+  tabBarShowLabel: false,
+  headerShown: false,
+  tabBarStyle: {
+    position: "absolute",
+    bottom: 0,
+    right: 0,
+    left: 0,
+    elevation: 0,
+    height: 60,
+    background: "#fff",
+  },
+};
+
 export default function App() {
   return (
     <NavigationContainer>
       <StackDemo.Navigator
-        initialRouteName="TabBottom"
+        // initialRouteName="TabBottom"
         // initialRouteName="AddEmployee"
+        initialRouteName="IntroHello"
         screenOptions={{
           headerStyle: {
             backgroundColor: "#03DAC6",
           },
-          headerBackVisible: true,
+          headerBackVisible: false,
+          headerShown: false,
         }}
       >
         <StackDemo.Screen
@@ -184,11 +183,9 @@ export default function App() {
           component={AddEmployee2}
           // options={{ headerShown: false }}
         />
-        {/* <StackDemo.Screen
-          name="UpdateEmployee"
-          component={AddEmployee}
-          options={{ headerShown: false }}
-        /> */}
+        <StackDemo.Screen name="IntroHello" component={IntroHello} />
+        <StackDemo.Screen name="Login" component={Login} />
+        <StackDemo.Screen name="Register" component={Register} />
       </StackDemo.Navigator>
     </NavigationContainer>
   );
