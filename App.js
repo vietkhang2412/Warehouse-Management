@@ -38,10 +38,7 @@ const TabBottom = () => {
   return (
     <SafeAreaProvider>
       <StatusBar style="auto" />
-      <Tab.Navigator
-        screenOptions={screenOptions}
-        tabBarOptions={{ keyboardHidesTabBar: true }}
-      >
+      <Tab.Navigator screenOptions={screenOptions}>
         <Tab.Screen
           name="Product"
           component={Product}
@@ -97,8 +94,8 @@ const TabBottom = () => {
           }}
         />
         <Tab.Screen
-          name="Staff"
-          component={Staff}
+          name="AddEmployee"
+          component={AddEmployee}
           options={{
             tabBarIcon: ({ focused }) => {
               return (
@@ -160,6 +157,7 @@ export default function App() {
     <NavigationContainer>
       <StackDemo.Navigator
         initialRouteName="TabBottom"
+        // initialRouteName="AddEmployee"
         screenOptions={{
           headerStyle: {
             backgroundColor: "#03DAC6",
@@ -167,7 +165,11 @@ export default function App() {
           headerBackVisible: true,
         }}
       >
-        <StackDemo.Screen name="TabBottom" component={TabBottom} />
+        <StackDemo.Screen
+          name="TabBottom"
+          component={TabBottom}
+          options={{ headerShown: true }}
+        />
         <StackDemo.Screen
           name="AddEmployee"
           component={AddEmployee}
