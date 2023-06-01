@@ -17,60 +17,11 @@ import Register from "./screens/login/Register";
 const StackDemo = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
-export default function App() {
-  return (
-    <NavigationContainer>
-      <StackDemo.Navigator
-        initialRouteName="IntroHello"
-        screenOptions={{
-          headerStyle: {
-            backgroundColor: "#03DAC6",
-          },
-          headerBackVisible: true,
-          headerShown:false
-        }}
-      >
-        <StackDemo.Screen name="TabBottom" component={TabBottom} />
-        <StackDemo.Screen
-          name="AddEmployee"
-          component={AddEmployee}
-          options={{
-            headerShown: true,
-            headerTitle: "Nhân Viên",
-            // headerSearchBarOptions:
-          }}
-        />
-        <StackDemo.Screen name="AddEmployee2" component={AddEmployee2} />
-        <StackDemo.Screen name="IntroHello" component={IntroHello} />
-        <StackDemo.Screen name="Login" component={Login} />
-        <StackDemo.Screen name="Register" component={Register} />
-      </StackDemo.Navigator>
-    </NavigationContainer>
-  );
-}
-
-const screenOptions = {
-  tabBarShowLabel: false,
-  headerShown: false,
-  tabBarStyle: {
-    position: "absolute",
-    bottom: 0,
-    right: 0,
-    left: 0,
-    elevation: 0,
-    height: 60,
-    background: "#fff",
-  },
-};
-
 const TabBottom = () => {
   return (
     <SafeAreaProvider>
       <StatusBar style="auto" />
-      <Tab.Navigator
-        screenOptions={screenOptions}
-        tabBarOptions={{ keyboardHidesTabBar: true }}
-      >
+      <Tab.Navigator screenOptions={screenOptions}>
         <Tab.Screen
           name="Product"
           component={Product}
@@ -126,8 +77,8 @@ const TabBottom = () => {
           }}
         />
         <Tab.Screen
-          name="Staff"
-          component={Staff}
+          name="AddEmployee"
+          component={AddEmployee}
           options={{
             tabBarIcon: ({ focused }) => {
               return (
@@ -184,4 +135,58 @@ const TabBottom = () => {
   );
 };
 
+const screenOptions = {
+  tabBarShowLabel: false,
+  headerShown: false,
+  tabBarStyle: {
+    position: "absolute",
+    bottom: 0,
+    right: 0,
+    left: 0,
+    elevation: 0,
+    height: 60,
+    background: "#fff",
+  },
+};
 
+export default function App() {
+  return (
+    <NavigationContainer>
+      <StackDemo.Navigator
+        // initialRouteName="TabBottom"
+        // initialRouteName="AddEmployee"
+        initialRouteName="IntroHello"
+        screenOptions={{
+          headerStyle: {
+            backgroundColor: "#03DAC6",
+          },
+          headerBackVisible: false,
+          headerShown: false,
+        }}
+      >
+        <StackDemo.Screen
+          name="TabBottom"
+          component={TabBottom}
+          options={{ headerShown: true }}
+        />
+        <StackDemo.Screen
+          name="AddEmployee"
+          component={AddEmployee}
+          options={{
+            headerShown: true,
+            headerTitle: "Nhân Viên",
+            // headerSearchBarOptions:
+          }}
+        />
+        <StackDemo.Screen
+          name="AddEmployee2"
+          component={AddEmployee2}
+          // options={{ headerShown: false }}
+        />
+        <StackDemo.Screen name="IntroHello" component={IntroHello} />
+        <StackDemo.Screen name="Login" component={Login} />
+        <StackDemo.Screen name="Register" component={Register} />
+      </StackDemo.Navigator>
+    </NavigationContainer>
+  );
+}

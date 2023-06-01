@@ -5,12 +5,12 @@ import {
   TouchableOpacity,
   Text,
   StyleSheet,
-  Alert
+  Alert,
 } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import axios from "axios";
 
-export default function LoginForm({ isSignUp ,navigation }) {
+export default function LoginForm({ isSignUp, navigation }) {
   const [username, setUsername] = useState("");
   const [pass, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
@@ -21,20 +21,19 @@ export default function LoginForm({ isSignUp ,navigation }) {
 
   const handleLogin = async () => {
     if (validateLoginForm()) {
-
       try {
         // Gửi yêu cầu lấy danh sách người dùng
-        const response = await axios.get("http://192.168.1.37:3000/users");
-  
+        const response = await axios.get("http://192.168.1.7:3000/users");
+
         // Tìm kiếm người dùng với tài khoản tương ứng
         const user = response.data.find((user) => user.username === username);
-  
+
         if (user && user.pass === pass) {
           console.log("Đăng nhập thành công.");
           console.log("Họ Tên:", user.fullName);
           console.log("Tài khoản:", user.username);
           console.log("Mật khẩu:", user.pass);
-  
+
           // Chuyển đến màn hình Home sau khi đăng nhập thành công
           navigation.navigate("TabBottom");
         } else {
@@ -50,19 +49,21 @@ export default function LoginForm({ isSignUp ,navigation }) {
   const handleSignUp = async () => {
     if (validateSignUpForm()) {
       try {
-      // Kiểm tra tài khoản đã tồn tại hay chưa
-      const checkResponse = await axios.get(`http://192.168.1.37:3000/users?username=${username}`);
-      if (checkResponse.data.length > 0) {
-        Alert.alert("Thông báo !", "Tài khoản đã tồn tại.");
-        return;
-      }
+        // Kiểm tra tài khoản đã tồn tại hay chưa
+        const checkResponse = await axios.get(
+          `http://192.168.1.7:3000/users?username=${username}`
+        );
+        if (checkResponse.data.length > 0) {
+          Alert.alert("Thông báo !", "Tài khoản đã tồn tại.");
+          return;
+        }
         // Gửi yêu cầu đăng ký mới
-        const response = await axios.post("http://192.168.1.37:3000/users", {
+        const response = await axios.post("http://192.168.1.7:3000/users", {
           fullName,
           username,
           pass,
         });
-        
+
         Alert.alert("Thông báo", "Đăng ký thành công.", [
           {
             text: "Đăng nhập ngay.",
@@ -79,7 +80,7 @@ export default function LoginForm({ isSignUp ,navigation }) {
       }
     }
   };
-  
+
   const validateLoginForm = () => {
     const errors = {};
 
