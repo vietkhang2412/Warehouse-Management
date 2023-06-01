@@ -4,6 +4,11 @@ import { useState } from "react";
 import AddEmployee from "./components/Employee/AddEmployee";
 import AddEmployee2 from "./components/Employee/AddEmployee2";
 
+import List_Prod from "./components/Products/List_Prod"
+import Add_Prod from "./components/Products/Add_Prod"
+import Update_Prod from "./components/Products/Update_Prod"
+
+
 const StackDemo = createNativeStackNavigator();
 import { Text, View, StatusBar } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
@@ -43,8 +48,8 @@ const TabBottom = () => {
         tabBarOptions={{ keyboardHidesTabBar: true }}
       >
         <Tab.Screen
-          name="Product"
-          component={Product}
+          name="List_Prod"
+          component={List_Prod}
           options={{
             tabBarIcon: ({ focused }) => {
               return (
@@ -168,7 +173,7 @@ export default function App() {
           headerBackVisible: true,
         }}
       >
-        <StackDemo.Screen name="TabBottom" component={TabBottom} />
+        <StackDemo.Screen name="TabBottom" component={TabBottom} options={{headerShown:false}}/>
         <StackDemo.Screen
           name="AddEmployee"
           component={AddEmployee}
@@ -188,7 +193,6 @@ export default function App() {
           component={AddEmployee}
           options={{ headerShown: false }}
         /> */}
-        <StackDemo.Screen name='List_Prod' component={List_Prod} options={{headerShown:false}}/>
         <StackDemo.Screen name='Add_Prod' component={Add_Prod} options={{headerShown:false}}/>
         <StackDemo.Screen name='Update_Prod' component={Update_Prod} options={{headerShown:false}}/>
       </StackDemo.Navigator>

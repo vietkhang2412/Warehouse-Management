@@ -3,7 +3,6 @@ import { StyleSheet } from "react-native";
 const styles = StyleSheet.create({
     container:{
         flex:1,
-        paddingTop:25
     },
     img:{
         width:70,
@@ -127,6 +126,15 @@ const styles = StyleSheet.create({
         backgroundColor:'#53FDFF',
         marginHorizontal:35
     },
+    toolbar: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        backgroundColor: '#03DAC6',
+        paddingHorizontal: 16,
+        height: 56,
+        width: '100%',
+      },
 
 });
 

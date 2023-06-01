@@ -2,30 +2,12 @@
   "products": [
     {
       "prod_code": "SP01",
-      "prod_name": "Banh mat nguoi",
+      "prod_name": "HAHAA",
       "prod_costprice": "1000",
       "prod_price": "3000",
-      "prod_qty": "10",
+      "prod_qty": "12",
       "image": "",
       "id": 1
-    },
-    {
-      "prod_code": "SP01",
-      "prod_name": "huhu",
-      "prod_costprice": "200",
-      "prod_price": "500",
-      "prod_qty": "15",
-      "image": "",
-      "id": 2
-    },
-    {
-      "prod_code": "234",
-      "prod_name": "23",
-      "prod_costprice": "23",
-      "prod_price": "23",
-      "prod_qty": "23",
-      "image": "",
-      "id": 4
     }
   ]
 }

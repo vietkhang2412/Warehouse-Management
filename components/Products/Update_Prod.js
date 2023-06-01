@@ -1,7 +1,7 @@
-import { View, Text, TextInput,Image,Alert, TouchableHighlight } from 'react-native'
+import { View, Text, TextInput,Image,Alert, TouchableOpacity } from 'react-native'
 import React, { useState } from 'react'
 import styles from './style'
-
+import { MaterialIcons } from '@expo/vector-icons';
 import env from './Env'
 
 
@@ -108,10 +108,16 @@ const Update_Prod = (props) => {
 
 
   return (
-    <View style={{ flex: 1, marginTop: 40, backgroundColor: 'white' }}>
+    <View style={{ flex: 1,  backgroundColor: 'white' }}>
+       <View style={styles.toolbar}>
+        <TouchableOpacity onPress={()=>props.navigation.navigate('List_Prod')}>
+          <MaterialIcons name="arrow-back" size={24} color={'#FFF'} />
+        </TouchableOpacity>
+        <Text style={{ color: 'white', fontSize: 17, fontWeight: 'bold',marginRight:120 }}>SỬA SẢN PHẨM</Text>
+      </View>
       <View style={styles.add_img}>
-        <TouchableHighlight style={styles.btn_add_img}><Text style={styles.text_add_img}><Image source={require('../../assets/imgProd/Vector.png')} />  Tải ảnh lên</Text></TouchableHighlight>
-        <TouchableHighlight style={styles.btn_add_img}><Text style={styles.text_add_img}><Image source={require('../../assets/imgProd/camera.png')} />  Chụp ảnh</Text></TouchableHighlight>
+        <TouchableOpacity style={styles.btn_add_img}><Text style={styles.text_add_img}><Image source={require('../../assets/imgProd/Vector.png')} />  Tải ảnh lên</Text></TouchableOpacity>
+        <TouchableOpacity style={styles.btn_add_img}><Text style={styles.text_add_img}><Image source={require('../../assets/imgProd/camera.png')} />  Chụp ảnh</Text></TouchableOpacity>
       </View>
       <Text style={styles.title}>Mã sản phẩm<Text style={styles.red}> *</Text></Text>
       <TextInput style={styles.formCtrl} onChangeText={(txt) => { setprod_code(txt) }} placeholder='Ví dụ : B0001' value={prod_code} />
@@ -124,8 +130,8 @@ const Update_Prod = (props) => {
       <Text style={styles.title}>Số lượng</Text>
       <TextInput style={styles.formCtrl} onChangeText={(txt) => { setprod_qty(txt) }} placeholder='Ví dụ : 10' value={prod_qty} />
       <View style={{ flexDirection: 'row'}}>
-        <TouchableHighlight onPress={showAlert} style={styles.btn_del}><Text style={{ fontWeight: 'bold',color:'red' }}>Xóa</Text></TouchableHighlight>
-        <TouchableHighlight onPress={UpdateProd} style={styles.btn_save}><Text style={{ fontWeight: 'bold' }}>Cập nhật</Text></TouchableHighlight>
+        <TouchableOpacity onPress={showAlert} style={styles.btn_del}><Text style={{ fontWeight: 'bold',color:'red' }}>Xóa</Text></TouchableOpacity>
+        <TouchableOpacity onPress={UpdateProd} style={styles.btn_save}><Text style={{ fontWeight: 'bold' }}>Cập nhật</Text></TouchableOpacity>
       </View>
     </View>
   )

@@ -1,7 +1,8 @@
-import { View, Text, TextInput, TouchableHighlight, Button, Image } from 'react-native'
+import { View, Text, TextInput, TouchableOpacity, Button, Image } from 'react-native'
 import React, { useState } from 'react'
 import styles from './style'
 import env from './Env'
+import { MaterialIcons } from '@expo/vector-icons';
 
 //npm install @rneui/themed @rneui/base
 
@@ -62,23 +63,29 @@ const Add_Prod = (props) => {
   }
 
   return (
-    <View style={{ flex: 1, marginTop: 40, backgroundColor: 'white' }}>
+    <View style={{ flex: 1, backgroundColor: 'white' }}>
+      <View style={styles.toolbar}>
+        <TouchableOpacity onPress={()=>props.navigation.navigate('List_Prod')}>
+          <MaterialIcons name="arrow-back" size={24} color={'#FFF'} />
+        </TouchableOpacity>
+        <Text style={{ color: 'white', fontSize: 17, fontWeight: 'bold',marginRight:120 }}>THÊM SẢN PHẨM</Text>
+      </View>
       <View style={styles.add_img}>
-        <TouchableHighlight style={styles.btn_add_img}><Text style={styles.text_add_img}><Image source={require('../../assets/imgProd/Vector.png')} />  Tải ảnh lên</Text></TouchableHighlight>
-        <TouchableHighlight style={styles.btn_add_img}><Text style={styles.text_add_img}><Image source={require('../../assets/imgProd/camera.png')} />  Chụp ảnh</Text></TouchableHighlight>
+        <TouchableOpacity style={styles.btn_add_img}><Text style={styles.text_add_img}><Image source={require('../../assets/imgProd/Vector.png')} />  Tải ảnh lên</Text></TouchableOpacity>
+        <TouchableOpacity style={styles.btn_add_img}><Text style={styles.text_add_img}><Image source={require('../../assets/imgProd/camera.png')} />  Chụp ảnh</Text></TouchableOpacity>
       </View>
       <Text style={styles.title}>Mã sản phẩm<Text style={styles.red}> *</Text></Text>
-      <TextInput style={styles.formCtrl} onChangeText={(txt) => { setprod_code(txt) }} placeholder='Ví dụ : B0001'/>
+      <TextInput style={styles.formCtrl} onChangeText={(txt) => { setprod_code(txt) }} placeholder='Ví dụ : B0001' />
       <Text style={styles.title}>Tên sản phẩm<Text style={styles.red}> *</Text></Text>
-      <TextInput style={styles.formCtrl} onChangeText={(txt) => { setprod_name(txt) }} placeholder='Ví dụ : Bột mì số 11'/>
+      <TextInput style={styles.formCtrl} onChangeText={(txt) => { setprod_name(txt) }} placeholder='Ví dụ : Bột mì số 11' />
       <Text style={styles.title}>Giá vốn<Text style={styles.red}> *</Text></Text>
-      <TextInput style={styles.formCtrl} onChangeText={(txt) => { setprod_costprice(txt) }} placeholder='0.000'/>
+      <TextInput style={styles.formCtrl} onChangeText={(txt) => { setprod_costprice(txt) }} placeholder='0.000' />
       <Text style={styles.title}>Giá bán<Text style={styles.red}> *</Text></Text>
-      <TextInput style={styles.formCtrl} onChangeText={(txt) => { setprod_price(txt) }} placeholder='0.000'/>
+      <TextInput style={styles.formCtrl} onChangeText={(txt) => { setprod_price(txt) }} placeholder='0.000' />
       <Text style={styles.title}>Số lượng</Text>
-      <TextInput style={styles.formCtrl} onChangeText={(txt) => { setprod_qty(txt) }} placeholder='Ví dụ : 10'/>
+      <TextInput style={styles.formCtrl} onChangeText={(txt) => { setprod_qty(txt) }} placeholder='Ví dụ : 10' />
       <View style={{ alignItems: 'center' }}>
-        <TouchableHighlight onPress={Save_Prod} style={styles.btn_save}><Text style={{ fontWeight: 'bold' }}>Xác nhận</Text></TouchableHighlight>
+        <TouchableOpacity onPress={Save_Prod} style={styles.btn_save}><Text style={{ fontWeight: 'bold' }}>Xác nhận</Text></TouchableOpacity>
       </View>
     </View>
 
