@@ -142,5 +142,43 @@
       "chucVu": "Nhân Viên",
       "anhNV": "https://i.pinimg.com/564x/3c/af/d9/3cafd90b6116db8ac1d70b4d6d3d48c5.jpg"
     }
+  ],
+  "products": [
+    {
+      "prod_code": "SP01",
+      "prod_name": "HAHAA",
+      "prod_costprice": "1000",
+      "prod_price": "3000",
+      "prod_qty": "12",
+      "image": "",
+      "id": 1
+    },
+    {
+      "prod_code": "3",
+      "prod_name": "3",
+      "prod_costprice": "33",
+      "prod_price": "232",
+      "prod_qty": "12",
+      "image": "",
+      "id": 2
+    },
+    {
+      "prod_code": "1",
+      "prod_name": "1",
+      "prod_costprice": "1",
+      "prod_price": "1",
+      "prod_qty": 2,
+      "image": "",
+      "id": 3
+    },
+    {
+      "prod_code": "123",
+      "prod_name": "hahahaa",
+      "prod_costprice": "100030",
+      "prod_price": "12300000",
+      "prod_qty": 5,
+      "image": "",
+      "id": 4
+    }
   ]
 }

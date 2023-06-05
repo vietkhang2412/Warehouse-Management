@@ -1,6 +1,13 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import AddEmployee from "./components/Employee/AddEmployee";
 import AddEmployee2 from "./components/Employee/AddEmployee2";
+
+import List_Prod from "./components/Products/List_Prod"
+import Add_Prod from "./components/Products/Add_Prod"
+import Update_Prod from "./components/Products/Update_Prod"
+
+
+const StackDemo = createNativeStackNavigator();
 import { Text, View, StatusBar } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -14,7 +21,6 @@ import IntroHello from "./screens/intro/IntroHello";
 import IntroThankyou from "./screens/intro/IntroThankyou";
 import Login from "./screens/login/Login";
 import Register from "./screens/login/Register";
-const StackDemo = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const TabBottom = () => {
@@ -23,8 +29,9 @@ const TabBottom = () => {
       <StatusBar style="auto" />
       <Tab.Navigator screenOptions={screenOptions}>
         <Tab.Screen
-          name="Product"
-          component={Product}
+          name="List_Prod"
+          component={List_Prod}
+          headerShown={false}
           options={{
             tabBarIcon: ({ focused }) => {
               return (
@@ -167,7 +174,7 @@ export default function App() {
         <StackDemo.Screen
           name="TabBottom"
           component={TabBottom}
-          options={{ headerShown: true }}
+          options={{ headerShown: false }}
         />
         <StackDemo.Screen
           name="AddEmployee"
@@ -186,7 +193,11 @@ export default function App() {
         <StackDemo.Screen name="IntroHello" component={IntroHello} />
         <StackDemo.Screen name="Login" component={Login} />
         <StackDemo.Screen name="Register" component={Register} />
+        <StackDemo.Screen name='Add_Prod' component={Add_Prod} options={{headerShown:false}}/>
+        <StackDemo.Screen name='Update_Prod' component={Update_Prod} options={{headerShown:false}}/>
       </StackDemo.Navigator>
     </NavigationContainer>
+
+        
   );
 }

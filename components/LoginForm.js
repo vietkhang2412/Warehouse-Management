@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import axios from "axios";
+import env from './Products/Env';
 
 export default function LoginForm({ isSignUp, navigation }) {
   const [username, setUsername] = useState("");
@@ -23,7 +24,7 @@ export default function LoginForm({ isSignUp, navigation }) {
     if (validateLoginForm()) {
       try {
         // Gửi yêu cầu lấy danh sách người dùng
-        const response = await axios.get("http://192.168.1.7:3000/users");
+        const response = await axios.get(env.url_User);
 
         // Tìm kiếm người dùng với tài khoản tương ứng
         const user = response.data.find((user) => user.username === username);
@@ -51,14 +52,14 @@ export default function LoginForm({ isSignUp, navigation }) {
       try {
         // Kiểm tra tài khoản đã tồn tại hay chưa
         const checkResponse = await axios.get(
-          `http://192.168.1.7:3000/users?username=${username}`
+          env.url_User`?username=${username}`
         );
         if (checkResponse.data.length > 0) {
           Alert.alert("Thông báo !", "Tài khoản đã tồn tại.");
           return;
         }
         // Gửi yêu cầu đăng ký mới
-        const response = await axios.post("http://192.168.1.7:3000/users", {
+        const response = await axios.post(env.url_User, {
           fullName,
           username,
           pass,

@@ -12,13 +12,14 @@ import { useState } from "react";
 import { FAB } from "@rneui/themed";
 import ItemEmployee from "./itemEmployee";
 import ModalEmployee from "./ModalEmployee";
+import env from "../Products/Env";
 
 const AddEmployee = (props) => {
   //console.log(props);
   const [data_employee, setdata_employee] = useState([]);
 
   const getListEmployee = async () => {
-    let url_api = "http://192.168.1.7:3000/employee";
+    let url_api = env.url_Employ;
     try {
       const response = await fetch(url_api);
       const json = await response.json();
