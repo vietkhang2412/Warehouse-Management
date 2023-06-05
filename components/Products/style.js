@@ -135,6 +135,17 @@ const styles = StyleSheet.create({
         height: 56,
         width: '100%',
       },
+      quantity: {
+        flexDirection: "row",
+        marginTop: 5,
+        marginLeft: 7,
+        borderWidth: 1,
+        borderColor: 'lightgray',
+        width: 80,
+        borderRadius: 15,
+        alignItems: "center",
+        justifyContent: "center"
+    }
 
 });
 

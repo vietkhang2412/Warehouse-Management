@@ -11,9 +11,8 @@ const Add_Prod = (props) => {
   const [prod_name, setprod_name] = useState('');
   const [prod_costprice, setprod_costprice] = useState('');
   const [prod_price, setprod_price] = useState('');
-  const [prod_qty, setprod_qty] = useState('');
+  const [prod_qty, setprod_qty] = useState(1);
   const [image, setimage] = useState('');
-
 
 
   const Save_Prod = () => {
@@ -31,6 +30,14 @@ const Add_Prod = (props) => {
     }
     if (prod_price.length == 0) {
       alert("Chưa nhập giá bán sản phẩm!"); return;
+    }
+
+    if (prod_qty.length == 0) {
+      alert("Chưa nhập số lượng sản phẩm!"); return;
+    }
+
+    if (prod_qty == 0) {
+      alert("Số lượng sản phẩm tối thiểu là 1!"); return;
     }
 
 
@@ -54,21 +61,27 @@ const Add_Prod = (props) => {
       });
   }
 
+  
+  const up = () => {
+    setprod_qty(Number(prod_qty) + 1) 
+  };
 
-  const clearState = () => {
-    setprod_name(null);
-    setprod_price(null);
-    setprod_costprice(null);
-    setimage(null);
-  }
+
+  const down = () => {
+    if (prod_qty > 1) {
+      setprod_qty(Number(prod_qty) - 1)
+    }
+  };
+
+
 
   return (
     <View style={{ flex: 1, backgroundColor: 'white' }}>
       <View style={styles.toolbar}>
-        <TouchableOpacity onPress={()=>props.navigation.navigate('List_Prod')}>
+        <TouchableOpacity onPress={() => props.navigation.navigate('List_Prod')}>
           <MaterialIcons name="arrow-back" size={24} color={'#FFF'} />
         </TouchableOpacity>
-        <Text style={{ color: 'white', fontSize: 17, fontWeight: 'bold',marginRight:120 }}>THÊM SẢN PHẨM</Text>
+        <Text style={{ color: 'white', fontSize: 17, fontWeight: 'bold', marginRight: 120 }}>THÊM SẢN PHẨM</Text>
       </View>
       <View style={styles.add_img}>
         <TouchableOpacity style={styles.btn_add_img}><Text style={styles.text_add_img}><Image source={require('../../assets/imgProd/Vector.png')} />  Tải ảnh lên</Text></TouchableOpacity>
@@ -83,7 +96,24 @@ const Add_Prod = (props) => {
       <Text style={styles.title}>Giá bán<Text style={styles.red}> *</Text></Text>
       <TextInput style={styles.formCtrl} onChangeText={(txt) => { setprod_price(txt) }} placeholder='0.000' />
       <Text style={styles.title}>Số lượng</Text>
-      <TextInput style={styles.formCtrl} onChangeText={(txt) => { setprod_qty(txt) }} placeholder='Ví dụ : 10' />
+      {/* <TextInput style={styles.formCtrl} onChangeText={(txt) => { setprod_qty(txt) }} placeholder='Ví dụ : 10' /> */}
+      <View style={styles.quantity}>
+        <TouchableOpacity style={styles.upAndDown} onPress={down}>
+          <MaterialIcons name="remove" size={15} color={'black'} />
+        </TouchableOpacity>
+        <View style={{ width: 30, borderLeftWidth: 1, borderRightWidth: 1, borderColor: 'lightgray' }}>
+          <TextInput
+            placeholder="0"
+            textAlign="center"
+            value={String(prod_qty)}
+            keyboardType="numeric"
+            onChangeText={(text) => {setprod_qty(text)}}
+          />
+        </View>
+        <TouchableOpacity style={styles.upAndDown} onPress={up}>
+          <MaterialIcons name="add" size={15} color={'black'} />
+        </TouchableOpacity>
+      </View>
       <View style={{ alignItems: 'center' }}>
         <TouchableOpacity onPress={Save_Prod} style={styles.btn_save}><Text style={{ fontWeight: 'bold' }}>Xác nhận</Text></TouchableOpacity>
       </View>
@@ -93,3 +123,4 @@ const Add_Prod = (props) => {
 }
 
 export default Add_Prod
+

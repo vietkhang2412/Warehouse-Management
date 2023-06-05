@@ -1,9 +1,10 @@
-import { View, Text, ScrollView, ActivityIndicator, FlatList, SafeAreaView, RefreshControl, Image,TouchableOpacity } from 'react-native'
+import { View, Text, ScrollView, ActivityIndicator, FlatList, SafeAreaView, RefreshControl, Image, TouchableOpacity } from 'react-native'
 import React, { useEffect, useState } from 'react';
 import env from './Env';
 import styles from './style';
 import Toolbar from '../toolbar';
 import { MaterialIcons } from '@expo/vector-icons';
+import { Button } from '@rneui/themed';
 
 // import { Toolbar, ToolbarBackAction, ToolbarContent, ToolbarAction } from 'react-native-paper';
 //json-server --watch Products.json  -H 192.168.0.103
@@ -29,32 +30,44 @@ const List_Prod = (props) => {
 
     const renderProd = ({ item }) => {
 
+        const calculateTotal = (item) => {
+
+            const parts = item.prod_price.split(".");
+
+            const integerPart = parts[0];
+            const decimalPart = parts[1] || "";
+
+            return integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ".") + (decimalPart.length > 0 ? "." + decimalPart : "");;
+        };
+
+
+
+
         return (
             <View style={{ width: '100%' }}>
                 <View style={styles.item} >
-                    {item.image != '' ? 
+                    {item.image != '' ?
                         <TouchableOpacity onPress={() => props.navigation.navigate('Update_Prod', { Data: item })}>
                             <Image source={{ uri: item.image }} style={styles.img} />
                         </TouchableOpacity>
-                           
+
                         : <TouchableOpacity onPress={() => props.navigation.navigate('Update_Prod', { Data: item })}>
                             <Image source={require('../../assets/imgProd/burger.png')} style={styles.img} />
-                          </TouchableOpacity> }
-                        
+                        </TouchableOpacity>}
+
                     <View style={{ width: 180 }}>
                         <Text style={styles.item_name}>{item.prod_name} </Text>
                         <Text style={styles.item_code}>{item.prod_code} </Text>
                     </View>
                     <View style={{ alignItems: 'center' }}>
                         <Text style={styles.item_code}>Tồn kho: {item.prod_qty}</Text>
-                        <Text style={{ fontSize: 18, color: 'red', fontWeight: '500' }}>{item.prod_price} đ</Text>
+                        <Text style={{ fontSize: 18, color: 'red', fontWeight: '500' }}>{calculateTotal(item)} đ</Text>
                     </View>
                 </View>
                 <View style={{ height: 1, width: '100%', backgroundColor: 'gray', marginTop: -10 }}></View>
             </View>
         );
     }
-
 
     useEffect(() => {
         getList();
@@ -71,6 +84,17 @@ const List_Prod = (props) => {
         }, 1500);
     });
 
+    // const allQty = ({item}) => {
+    //     let qty = 0;
+    //     for (let i = 0; i < listProd.length; i++) {
+    //         qty += item.prod_qty;
+    //     }
+    //     console.log(item.prod_qty);
+    //     return qty;
+    // }
+
+
+
 
     return (
         <View style={{ flex: 1, alignItems: 'center' }}>
@@ -79,7 +103,7 @@ const List_Prod = (props) => {
                 {/* <Toolbar /> */}
                 <MaterialIcons name="search" size={24} color={'#FFF'} />
             </View>
-           
+
             {listProd.length != 0 ?
                 <View style={{ alignItems: 'center', width: '100%' }}>
                     <TouchableOpacity onPress={() => { props.navigation.navigate('Add_Prod') }} style={styles.btn_list_add}><Text style={{ fontWeight: 'bold' }}>+ Thêm sản phẩm</Text></TouchableOpacity>

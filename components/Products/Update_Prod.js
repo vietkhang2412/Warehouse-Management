@@ -105,6 +105,18 @@ const Update_Prod = (props) => {
   }
 
 
+  const up = () => {
+    setprod_qty(Number(prod_qty) + 1) 
+  };
+
+
+  const down = () => {
+    if (prod_qty > 1) {
+      setprod_qty(Number(prod_qty) - 1)
+    }
+  };
+
+
 
 
   return (
@@ -128,7 +140,24 @@ const Update_Prod = (props) => {
       <Text style={styles.title}>Giá bán<Text style={styles.red}> *</Text></Text>
       <TextInput style={styles.formCtrl} onChangeText={(txt) => { setprod_price(txt) }} placeholder='0.000' value={prod_price} />
       <Text style={styles.title}>Số lượng</Text>
-      <TextInput style={styles.formCtrl} onChangeText={(txt) => { setprod_qty(txt) }} placeholder='Ví dụ : 10' value={prod_qty} />
+      {/* <TextInput style={styles.formCtrl} onChangeText={(txt) => { setprod_qty(txt) }} placeholder='Ví dụ : 10' value={prod_qty} /> */}
+      <View style={styles.quantity}>
+        <TouchableOpacity style={styles.upAndDown} onPress={down}>
+          <MaterialIcons name="remove" size={15} color={'black'} />
+        </TouchableOpacity>
+        <View style={{ width: 30, borderLeftWidth: 1, borderRightWidth: 1, borderColor: 'lightgray' }}>
+          <TextInput
+            placeholder="0"
+            textAlign="center"
+            value={String(prod_qty)}
+            keyboardType="numeric"
+            onChangeText={(text) => {setprod_qty(text)}}
+          />
+        </View>
+        <TouchableOpacity style={styles.upAndDown} onPress={up}>
+          <MaterialIcons name="add" size={15} color={'black'} />
+        </TouchableOpacity>
+      </View>
       <View style={{ flexDirection: 'row'}}>
         <TouchableOpacity onPress={showAlert} style={styles.btn_del}><Text style={{ fontWeight: 'bold',color:'red' }}>Xóa</Text></TouchableOpacity>
         <TouchableOpacity onPress={UpdateProd} style={styles.btn_save}><Text style={{ fontWeight: 'bold' }}>Cập nhật</Text></TouchableOpacity>

@@ -1,6 +1,7 @@
 import { View, Text, Image, TouchableOpacity, Alert } from "react-native";
 import * as React from "react";
 import st from "./style";
+import env from "../Products/Env";
 
 const ItemEmployee = (props) => {
   const { data } = props;
@@ -15,7 +16,7 @@ const ItemEmployee = (props) => {
   };
 
   const deleteEmployee = () => {
-    let url_api_delete = "http://192.168.1.7:3000/employee/" + props.data.maNV;
+    let url_api_delete =  env.url_Employ_del + props.data.maNV;
     Alert.alert("Thông Báo!", "Bạn có chắc muốn xóa?", [
       {
         text: "OK",

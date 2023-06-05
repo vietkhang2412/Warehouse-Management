@@ -31,6 +31,7 @@ const TabBottom = () => {
         <Tab.Screen
           name="List_Prod"
           component={List_Prod}
+          headerShown={false}
           options={{
             tabBarIcon: ({ focused }) => {
               return (
@@ -173,7 +174,7 @@ export default function App() {
         <StackDemo.Screen
           name="TabBottom"
           component={TabBottom}
-          options={{ headerShown: true }}
+          options={{ headerShown: false }}
         />
         <StackDemo.Screen
           name="AddEmployee"
