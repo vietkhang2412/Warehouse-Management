@@ -14,6 +14,7 @@ import IntroHello from "./screens/intro/IntroHello";
 import IntroThankyou from "./screens/intro/IntroThankyou";
 import Login from "./screens/login/Login";
 import Register from "./screens/login/Register";
+import UpdateEmployee from "./components/Employee/UpdateScreen";
 const StackDemo = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -153,9 +154,9 @@ export default function App() {
   return (
     <NavigationContainer>
       <StackDemo.Navigator
-        // initialRouteName="TabBottom"
+        initialRouteName="TabBottom"
         // initialRouteName="AddEmployee"
-        initialRouteName="IntroHello"
+        // initialRouteName="IntroHello"
         screenOptions={{
           headerStyle: {
             backgroundColor: "#03DAC6",
@@ -181,8 +182,9 @@ export default function App() {
         <StackDemo.Screen
           name="AddEmployee2"
           component={AddEmployee2}
-          // options={{ headerShown: false }}
+          options={{ headerShown: true, headerBackVisible: true }}
         />
+        <StackDemo.Screen name="UpdateEmployee" component={UpdateEmployee} />
         <StackDemo.Screen name="IntroHello" component={IntroHello} />
         <StackDemo.Screen name="Login" component={Login} />
         <StackDemo.Screen name="Register" component={Register} />
