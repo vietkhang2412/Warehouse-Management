@@ -1,33 +1,70 @@
 import {
   View,
   Text,
-  Image,
   TouchableOpacity,
   TextInput,
   ImageBackground,
 } from "react-native";
-import st from "./style";
 import React from "react";
 import { useState } from "react";
-import { MaterialIcons } from "@expo/vector-icons";
 import Dropdown from "../Dropdown";
+import env from "../../Env";
+import st from "./style";
 
 const UpdateEmployee = (props) => {
-  const { data } = props;
   //khai báo state
+  const [maNV, setMaNV] = useState(props.route.params.item.maNV);
+  const [tenNV, setTenNV] = useState(props.route.params.item.tenNV);
+  const [dienThoai, setDienthoai] = useState(props.route.params.item.dienThoai);
+  const [taiKhoan, setTaiKhoan] = useState(props.route.params.item.taiKhoan);
+  const [matKhau, setMatKhau] = useState(props.route.params.item.matKhau);
+
   const [selectedItem, setSelectedItem] = useState({
-    id: "Nhân Viên",
-    name: "Nhân Viên",
+    id: 1,
+    name: props.route.params.item.chucVu,
   });
-  console.log(selectedItem.id);
+
+  console.log(props.route.params.item.maNV);
 
   const data_NV = [
-    { id: "Nhân Viên", name: "Nhân Viên" },
-    { id: "Quản Lý", name: "Quản Lý" },
+    { id: 1, name: "Nhân Viên" },
+    { id: 2, name: "Quản Lý" },
   ];
 
   const onSelect = (item) => {
     setSelectedItem(item);
+  };
+
+  const updateE = () => {
+    let objE = {
+      maNV: maNV,
+      tenNV: tenNV,
+      taiKhoan: taiKhoan,
+      dienThoai: dienThoai,
+      chucVu: selectedItem.name,
+      matKhau: matKhau,
+    };
+
+    // console.log(objE);
+
+    fetch(env.url_Employ_del + props.route.params.item.id, {
+      method: "PUT",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(objE),
+    })
+      .then((res) => {
+        console.log(res);
+        if (res.status == 200) {
+          alert("Sửa thành công");
+          props.navigation.goBack();
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -39,14 +76,28 @@ const UpdateEmployee = (props) => {
       >
         <View style={st.container_content_add}>
           <View style={{ marginBottom: 20 }}>
+            <Text style={st.title_field}>Mã Nhân Viên</Text>
+            <TextInput
+              style={st.textInput}
+              multiline={true}
+              placeholder="Nhập tên nhân viên"
+              onChangeText={(txt) => {
+                setMaNV(txt);
+              }}
+              value={maNV}
+            />
+          </View>
+
+          <View style={{ marginBottom: 20 }}>
             <Text style={st.title_field}>Tên Nhân Viên</Text>
             <TextInput
               style={st.textInput}
               multiline={true}
               placeholder="Nhập tên nhân viên"
               onChangeText={(txt) => {
-                settitle(txt);
+                setTenNV(txt);
               }}
+              value={tenNV}
             />
           </View>
 
@@ -57,22 +108,9 @@ const UpdateEmployee = (props) => {
               multiline={true}
               placeholder="Nhập tài khoản"
               onChangeText={(txt) => {
-                settitle(txt);
+                setTaiKhoan(txt);
               }}
-            />
-          </View>
-
-          <View style={{ marginBottom: 20 }}>
-            <Text style={st.title_field}>Mật Khẩu</Text>
-            <TextInput
-              style={st.textInput}
-              placeholder="Nhập mật khẩu"
-              returnKeyType="go"
-              secureTextEntry
-              autoCorrect={false}
-              // onChangeText={(txt) => {
-              //   settitle(txt);
-              // }}
+              value={taiKhoan}
             />
           </View>
 
@@ -83,8 +121,9 @@ const UpdateEmployee = (props) => {
               multiline={true}
               placeholder="Nhập số điện thoại"
               onChangeText={(txt) => {
-                settitle(txt);
+                setDienthoai(txt);
               }}
+              value={dienThoai}
             />
           </View>
         </View>
@@ -95,7 +134,7 @@ const UpdateEmployee = (props) => {
           <Dropdown data={data_NV} onSelect={onSelect} value={selectedItem} />
         </View>
 
-        <TouchableOpacity style={{ marginTop: 50 }}>
+        <TouchableOpacity onPress={updateE} style={{ marginTop: 50 }}>
           <Text style={st.btn_add2}>CẬP NHÂT</Text>
         </TouchableOpacity>
       </ImageBackground>

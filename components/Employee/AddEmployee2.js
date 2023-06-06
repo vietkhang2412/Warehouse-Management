@@ -1,7 +1,6 @@
 import {
   View,
   Text,
-  Image,
   TouchableOpacity,
   TextInput,
   ImageBackground,
@@ -11,11 +10,12 @@ import st from "./style";
 import React from "react";
 import { useState } from "react";
 import Dropdown from "../Dropdown";
+import env from "../../Env";
 
 const AddEmployee2 = (props) => {
   //khai báo state
   const [selectedItem, setSelectedItem] = useState({
-    id: "Nhân Viên",
+    id: 1,
     name: "Nhân Viên",
   });
   const [maNV, setMaNV] = useState("");
@@ -25,11 +25,9 @@ const AddEmployee2 = (props) => {
   const [matKhau, setMatKhau] = useState("");
   // const [chucVu, setChucVu] = useState("");
 
-  let url_api_employee = "http://192.168.1.8:3000/employee";
-
   const data_NV = [
-    { id: "Nhân Viên", name: "Nhân Viên" },
-    { id: "Quản Lý", name: "Quản Lý" },
+    { id: 1, name: "Nhân Viên" },
+    { id: 2, name: "Quản Lý" },
   ];
 
   const onSelect = (item) => {
@@ -46,7 +44,7 @@ const AddEmployee2 = (props) => {
       chucVu: selectedItem.name,
     };
 
-    fetch(url_api_employee, {
+    fetch(env.url_Employ, {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -75,6 +73,18 @@ const AddEmployee2 = (props) => {
           style={st.img_bg}
         >
           <View style={st.container_content_add}>
+            <View style={{ marginBottom: 20 }}>
+              <Text style={st.title_field}>Mã Nhân Viên</Text>
+              <TextInput
+                style={st.textInput}
+                multiline={true}
+                placeholder="Nhập mã nhân viên"
+                onChangeText={(txt) => {
+                  setMaNV(txt);
+                }}
+              />
+            </View>
+
             <View style={{ marginBottom: 20 }}>
               <Text style={st.title_field}>Tên Nhân Viên</Text>
               <TextInput

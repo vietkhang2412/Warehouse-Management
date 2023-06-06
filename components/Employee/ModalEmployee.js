@@ -1,9 +1,10 @@
-import { View, Image, Text, TouchableOpacity, Alert } from "react-native";
+import { View, Text, TouchableOpacity, Alert } from "react-native";
 import React from "react";
 import Modal from "react-native-modal";
 import ItemEmployee from "./itemEmployee";
 import { useState } from "react";
 import st from "./style";
+import env from "../../Env";
 
 const ModalEmployee = (props) => {
   const { data } = props;
@@ -16,11 +17,11 @@ const ModalEmployee = (props) => {
   };
 
   const goUpdateEmployee = () => {
-    props.nav.navigate("UpdateEmployee", { item: props });
+    props.nav.navigate("UpdateEmployee", { item: props.data });
   };
 
   const deleteEmployee = () => {
-    let url_api_delete = "http://192.168.1.8:3000/employee/" + props.data.id;
+    let url_api_delete = env.url_Employ_del + props.data.id;
     Alert.alert("Thông Báo!", "Bạn có chắc muốn xóa?", [
       {
         text: "OK",
@@ -67,6 +68,18 @@ const ModalEmployee = (props) => {
             </View>
 
             <Text style={st.textTitle}>Chi Tiết Nhân Viên</Text>
+            <View style={{ flexDirection: "row" }}>
+              <Text
+                style={[
+                  st.textContent,
+                  { fontWeight: "500", color: "black", width: "35%" },
+                ]}
+              >
+                Mã Nhân Viên:
+              </Text>
+              <Text style={st.textContent}>{props.data.maNV}</Text>
+            </View>
+
             <View style={{ flexDirection: "row" }}>
               <Text
                 style={[

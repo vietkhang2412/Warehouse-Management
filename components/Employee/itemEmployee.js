@@ -1,6 +1,7 @@
 import { View, Text, Image, TouchableOpacity, Alert } from "react-native";
 import * as React from "react";
 import st from "./style";
+import env from "../../Env";
 
 const ItemEmployee = (props) => {
   const { data } = props;
