@@ -1,11 +1,10 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import AddEmployee from "./components/Employee/AddEmployee";
+import ListEmployee from "./components/Employee/ListEmployee";
 import AddEmployee2 from "./components/Employee/AddEmployee2";
 
-import List_Prod from "./components/Products/List_Prod"
-import Add_Prod from "./components/Products/Add_Prod"
-import Update_Prod from "./components/Products/Update_Prod"
-
+import List_Prod from "./components/Products/List_Prod";
+import Add_Prod from "./components/Products/Add_Prod";
+import Update_Prod from "./components/Products/Update_Prod";
 
 const StackDemo = createNativeStackNavigator();
 import { Text, View, StatusBar } from "react-native";
@@ -21,6 +20,7 @@ import IntroHello from "./screens/intro/IntroHello";
 import IntroThankyou from "./screens/intro/IntroThankyou";
 import Login from "./screens/login/Login";
 import Register from "./screens/login/Register";
+import UpdateEmployee from "./components/Employee/UpdateScreen";
 const Tab = createBottomTabNavigator();
 
 const TabBottom = () => {
@@ -84,8 +84,8 @@ const TabBottom = () => {
           }}
         />
         <Tab.Screen
-          name="AddEmployee"
-          component={AddEmployee}
+          name="ListEmployee"
+          component={ListEmployee}
           options={{
             tabBarIcon: ({ focused }) => {
               return (
@@ -160,9 +160,9 @@ export default function App() {
   return (
     <NavigationContainer>
       <StackDemo.Navigator
-        // initialRouteName="TabBottom"
-        // initialRouteName="AddEmployee"
-        initialRouteName="IntroHello"
+        initialRouteName="TabBottom"
+        // initialRouteName="ListEmployee"
+        // initialRouteName="IntroHello"
         screenOptions={{
           headerStyle: {
             backgroundColor: "#03DAC6",
@@ -177,8 +177,8 @@ export default function App() {
           options={{ headerShown: false }}
         />
         <StackDemo.Screen
-          name="AddEmployee"
-          component={AddEmployee}
+          name="ListEmployee"
+          component={ListEmployee}
           options={{
             headerShown: true,
             headerTitle: "Nhân Viên",
@@ -188,16 +188,32 @@ export default function App() {
         <StackDemo.Screen
           name="AddEmployee2"
           component={AddEmployee2}
-          // options={{ headerShown: false }}
+          options={{ headerShown: true, headerBackVisible: true }}
+        />
+        <StackDemo.Screen
+          name="UpdateEmployee"
+          component={UpdateEmployee}
+          options={{
+            headerShown: true,
+            headerTitle: "Chỉnh sửa",
+            headerBackVisible: true,
+            // headerSearchBarOptions:
+          }}
         />
         <StackDemo.Screen name="IntroHello" component={IntroHello} />
         <StackDemo.Screen name="Login" component={Login} />
         <StackDemo.Screen name="Register" component={Register} />
-        <StackDemo.Screen name='Add_Prod' component={Add_Prod} options={{headerShown:false}}/>
-        <StackDemo.Screen name='Update_Prod' component={Update_Prod} options={{headerShown:false}}/>
+        <StackDemo.Screen
+          name="Add_Prod"
+          component={Add_Prod}
+          options={{ headerShown: false }}
+        />
+        <StackDemo.Screen
+          name="Update_Prod"
+          component={Update_Prod}
+          options={{ headerShown: false }}
+        />
       </StackDemo.Navigator>
     </NavigationContainer>
-
-        
   );
 }

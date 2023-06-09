@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import axios from "axios";
-import env from './Products/Env';
+import env from "../Env";
 
 export default function LoginForm({ isSignUp, navigation }) {
   const [username, setUsername] = useState("");

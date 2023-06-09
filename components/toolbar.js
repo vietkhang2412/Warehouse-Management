@@ -1,19 +1,26 @@
-import { useState, useEffect } from 'react';
-import { View, TextInput, TouchableOpacity, StyleSheet, Animated, Dimensions } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { useState, useEffect } from "react";
+import {
+  View,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  Animated,
+  Dimensions,
+} from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import env from "../Env";
 
 const Toolbar = () => {
-
   const [width, setWidth] = useState(0);
 
   useEffect(() => {
-    const screenWidth = Dimensions.get('window').width;
+    const screenWidth = Dimensions.get("window").width;
 
     const desiredWidth = screenWidth * 0.7;
 
     setWidth(desiredWidth);
   }, []);
-  
+
   const [isSearching, setIsSearching] = useState(false);
   const searchWidth = new Animated.Value(0);
 
@@ -36,7 +43,10 @@ const Toolbar = () => {
   return (
     <View style={styles.toolbarContainer}>
       {!isSearching ? (
-        <TouchableOpacity style={styles.searchButton} onPress={handleSearchPress}>
+        <TouchableOpacity
+          style={styles.searchButton}
+          onPress={handleSearchPress}
+        >
           <Ionicons name="search" size={24} color="white" />
         </TouchableOpacity>
       ) : (
@@ -44,7 +54,9 @@ const Toolbar = () => {
           <Ionicons name="close" size={24} color="white" />
         </TouchableOpacity>
       )}
-      <Animated.View style={[styles.searchInputContainer, { width: searchWidth }]}>
+      <Animated.View
+        style={[styles.searchInputContainer, { width: searchWidth }]}
+      >
         {isSearching && (
           <TextInput
             style={styles.searchInput}
@@ -59,28 +71,28 @@ const Toolbar = () => {
 
 const styles = StyleSheet.create({
   toolbarContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#03DAC6',
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#03DAC6",
     paddingHorizontal: 0,
     height: 56,
-    alignSelf: 'flex-end'
+    alignSelf: "flex-end",
   },
   searchButton: {
     marginRight: 0,
   },
   searchInput: {
     flex: 1,
-    backgroundColor: 'rgba(255, 255, 255, 0.3)',
+    backgroundColor: "rgba(255, 255, 255, 0.3)",
     borderRadius: 8,
     paddingHorizontal: 12,
     paddingVertical: 8,
-    color: 'white',
+    color: "white",
     marginVertical: 2,
   },
   clearButton: {
     marginLeft: 8,
-  }
+  },
 });
 
-export default Toolbar
+export default Toolbar;

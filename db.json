@@ -62,6 +62,7 @@
   ],
   "employee": [
     {
+      "id": 1,
       "maNV": "NV0001",
       "tenNV": "Đinh Viết Khang",
       "taiKhoan": "khangloong14",
@@ -71,6 +72,7 @@
       "anhNV": "https://i.pinimg.com/564x/3c/af/d9/3cafd90b6116db8ac1d70b4d6d3d48c5.jpg"
     },
     {
+      "id": 2,
       "maNV": "NV0002",
       "tenNV": "Ngô Trung Hiếu",
       "taiKhoan": "hieunt",
@@ -80,6 +82,7 @@
       "anhNV": "https://i.pinimg.com/564x/3c/af/d9/3cafd90b6116db8ac1d70b4d6d3d48c5.jpg"
     },
     {
+      "id": 3,
       "maNV": "NV0003",
       "tenNV": "Cao Văn Chỉnh",
       "taiKhoan": "chinhr",
@@ -89,6 +92,7 @@
       "anhNV": "https://i.pinimg.com/564x/3c/af/d9/3cafd90b6116db8ac1d70b4d6d3d48c5.jpg"
     },
     {
+      "id": 4,
       "maNV": "NV0004",
       "tenNV": "Đỗ Xuân Hiếu",
       "taiKhoan": "hieudz",
@@ -98,6 +102,7 @@
       "anhNV": "https://i.pinimg.com/564x/3c/af/d9/3cafd90b6116db8ac1d70b4d6d3d48c5.jpg"
     },
     {
+      "id": 5,
       "maNV": "NV0005",
       "tenNV": "Đào Duy Lâm",
       "taiKhoan": "duylam2003",
@@ -107,6 +112,7 @@
       "anhNV": "https://i.pinimg.com/564x/3c/af/d9/3cafd90b6116db8ac1d70b4d6d3d48c5.jpg"
     },
     {
+      "id": 6,
       "maNV": "NV0006",
       "tenNV": "Nguyễn Văn Sáng",
       "taiKhoan": "sangdev",
@@ -116,7 +122,8 @@
       "anhNV": "https://i.pinimg.com/564x/3c/af/d9/3cafd90b6116db8ac1d70b4d6d3d48c5.jpg"
     },
     {
-      "maNV": "NV0006",
+      "id": 7,
+      "maNV": "NV0007",
       "tenNV": "Nguyễn Văn Sáng",
       "taiKhoan": "sangdev",
       "matKhau": "123",
@@ -125,22 +132,13 @@
       "anhNV": "https://i.pinimg.com/564x/3c/af/d9/3cafd90b6116db8ac1d70b4d6d3d48c5.jpg"
     },
     {
-      "maNV": "NV0006",
-      "tenNV": "Nguyễn Văn Sáng",
-      "taiKhoan": "sangdev",
-      "matKhau": "123",
-      "dienThoai": "0338269641",
+      "maNV": "NV0008",
+      "tenNV": "khangloong",
+      "taiKhoan": "khangdv",
+      "dienThoai": "0968317777",
       "chucVu": "Nhân Viên",
-      "anhNV": "https://i.pinimg.com/564x/3c/af/d9/3cafd90b6116db8ac1d70b4d6d3d48c5.jpg"
-    },
-    {
-      "maNV": "NV0006",
-      "tenNV": "Nguyễn Văn Sáng",
-      "taiKhoan": "sangdev",
       "matKhau": "123",
-      "dienThoai": "0338269641",
-      "chucVu": "Nhân Viên",
-      "anhNV": "https://i.pinimg.com/564x/3c/af/d9/3cafd90b6116db8ac1d70b4d6d3d48c5.jpg"
+      "id": 8
     }
   ],
   "products": [
