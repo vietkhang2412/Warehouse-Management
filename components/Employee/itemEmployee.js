@@ -15,7 +15,7 @@ const ItemEmployee = (props) => {
   };
 
   const deleteEmployee = () => {
-    let url_api_delete = "http://192.168.1.7:3000/employee/" + props.data.maNV;
+    let url_api_delete = "http://192.168.1.23:3000/employee/" + props.data.maNV;
     Alert.alert("Thông Báo!", "Bạn có chắc muốn xóa?", [
       {
         text: "OK",

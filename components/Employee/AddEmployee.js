@@ -9,6 +9,7 @@ import {
 import React from "react";
 import st from "./style";
 import { useState } from "react";
+
 import { FAB } from "@rneui/themed";
 import ItemEmployee from "./itemEmployee";
 import ModalEmployee from "./ModalEmployee";
@@ -18,7 +19,7 @@ const AddEmployee = (props) => {
   const [data_employee, setdata_employee] = useState([]);
 
   const getListEmployee = async () => {
-    let url_api = "http://192.168.1.7:3000/employee";
+    let url_api = "http://192.168.1.23:3000/employee";
     try {
       const response = await fetch(url_api);
       const json = await response.json();

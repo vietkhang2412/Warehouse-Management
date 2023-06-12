@@ -23,7 +23,7 @@ export default function LoginForm({ isSignUp, navigation }) {
     if (validateLoginForm()) {
       try {
         // Gửi yêu cầu lấy danh sách người dùng
-        const response = await axios.get("http://192.168.1.7:3000/users");
+        const response = await axios.get("http://192.168.1.22:3000/users");
 
         // Tìm kiếm người dùng với tài khoản tương ứng
         const user = response.data.find((user) => user.username === username);
@@ -51,30 +51,27 @@ export default function LoginForm({ isSignUp, navigation }) {
       try {
         // Kiểm tra tài khoản đã tồn tại hay chưa
         const checkResponse = await axios.get(
-          `http://192.168.1.7:3000/users?username=${username}`
+          `http://192.168.1.22:3000/users?username=${username}`
         );
         if (checkResponse.data.length > 0) {
           Alert.alert("Thông báo !", "Tài khoản đã tồn tại.");
           return;
         }
         // Gửi yêu cầu đăng ký mới
-        const response = await axios.post("http://192.168.1.7:3000/users", {
+        const response = await axios.post("http://192.168.1.23:3000/users", {
           fullName,
           username,
           pass,
         });
 
-        Alert.alert("Thông báo", "Đăng ký thành công.", [
-          {
-            text: "Đăng nhập ngay.",
-            onPress: () => {
-              console.log("Họ Tên:", response.data.fullName);
-              console.log("Tài khoản:", response.data.username);
-              console.log("Mật khẩu:", response.data.password);
-              navigation.navigate("Login");
-            },
-          },
-        ]);
+        Alert.alert("Thông báo", "Đăng ký thành công.");
+
+        setTimeout(() => {
+          console.log("Họ Tên:", response.data.fullName);
+          console.log("Tài khoản:", response.data.username);
+          console.log("Mật khẩu:", response.data.password);
+          navigation.navigate("Login");
+        }, 2000); // Đợi 2 giây trước khi chuyển sang màn hình đăng nhập
       } catch (error) {
         console.error("Đăng ký thất bại:", error);
       }
@@ -109,8 +106,6 @@ export default function LoginForm({ isSignUp, navigation }) {
       errors.fullName = "Họ tên không được để trống!";
     } else if (fullName.length > 24) {
       errors.fullName = "Họ tên quá dài!";
-    } else if (fullName.length <= 15) {
-      errors.fullName = "Họ tên không hợp lệ!";
     }
 
     if (!username.trim()) {

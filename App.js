@@ -1,153 +1,23 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import AddEmployee from "./components/Employee/AddEmployee";
-import AddEmployee2 from "./components/Employee/AddEmployee2";
-import { Text, View, StatusBar } from "react-native";
+import { Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialIcons } from "@expo/vector-icons";
+import AddEmployee from "./components/Employee/AddEmployee";
+import AddEmployee2 from "./components/Employee/AddEmployee2";
 import Product from "./screens/Product";
 import Bill from "./screens/Bill";
 import Staff from "./screens/Staff";
 import Statistical from "./screens/Statistical";
-import { SafeAreaProvider } from "react-native-safe-area-context";
 import IntroHello from "./screens/intro/IntroHello";
 import IntroThankyou from "./screens/intro/IntroThankyou";
 import Login from "./screens/login/Login";
 import Register from "./screens/login/Register";
+
 const StackDemo = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
-const TabBottom = () => {
-  return (
-    <SafeAreaProvider>
-      <StatusBar style="auto" />
-      <Tab.Navigator screenOptions={screenOptions}>
-        <Tab.Screen
-          name="Product"
-          component={Product}
-          options={{
-            tabBarIcon: ({ focused }) => {
-              return (
-                <View
-                  style={{ alignItems: "center", justifyContent: "center" }}
-                >
-                  <MaterialIcons
-                    name="storefront"
-                    size={24}
-                    color={focused ? "#00A8AA" : "#6C6C6C"}
-                  />
-                  <Text
-                    style={{
-                      fontSize: 12,
-                      color: focused ? "#00A8AA" : "#6C6C6C",
-                    }}
-                  >
-                    SẢN PHẨM
-                  </Text>
-                </View>
-              );
-            },
-          }}
-        />
-        <Tab.Screen
-          name="Bill"
-          component={Bill}
-          options={{
-            tabBarIcon: ({ focused }) => {
-              return (
-                <View
-                  style={{ alignItems: "center", justifyContent: "center" }}
-                >
-                  <MaterialIcons
-                    name="receipt-long"
-                    size={24}
-                    color={focused ? "#00A8AA" : "#6C6C6C"}
-                  />
-                  <Text
-                    style={{
-                      fontSize: 12,
-                      color: focused ? "#00A8AA" : "#6C6C6C",
-                    }}
-                  >
-                    HÓA ĐƠN
-                  </Text>
-                </View>
-              );
-            },
-          }}
-        />
-        <Tab.Screen
-          name="AddEmployee"
-          component={AddEmployee}
-          options={{
-            tabBarIcon: ({ focused }) => {
-              return (
-                <View
-                  style={{ alignItems: "center", justifyContent: "center" }}
-                >
-                  <MaterialIcons
-                    name="people-outline"
-                    size={24}
-                    color={focused ? "#00A8AA" : "#6C6C6C"}
-                  />
-                  <Text
-                    style={{
-                      fontSize: 12,
-                      color: focused ? "#00A8AA" : "#6C6C6C",
-                    }}
-                  >
-                    NHÂN VIÊN
-                  </Text>
-                </View>
-              );
-            },
-          }}
-        />
-        <Tab.Screen
-          name="Statistical"
-          component={Statistical}
-          options={{
-            tabBarIcon: ({ focused }) => {
-              return (
-                <View
-                  style={{ alignItems: "center", justifyContent: "center" }}
-                >
-                  <MaterialIcons
-                    name="date-range"
-                    size={24}
-                    color={focused ? "#00A8AA" : "#6C6C6C"}
-                  />
-                  <Text
-                    style={{
-                      fontSize: 12,
-                      color: focused ? "#00A8AA" : "#6C6C6C",
-                    }}
-                  >
-                    THỐNG KÊ
-                  </Text>
-                </View>
-              );
-            },
-          }}
-        />
-      </Tab.Navigator>
-    </SafeAreaProvider>
-  );
-};
 
-const screenOptions = {
-  tabBarShowLabel: false,
-  headerShown: false,
-  tabBarStyle: {
-    position: "absolute",
-    bottom: 0,
-    right: 0,
-    left: 0,
-    elevation: 0,
-    height: 60,
-    background: "#fff",
-  },
-};
 
 export default function App() {
   return (
@@ -167,7 +37,7 @@ export default function App() {
         <StackDemo.Screen
           name="TabBottom"
           component={TabBottom}
-          options={{ headerShown: true }}
+          options={{ headerShown: false }}
         />
         <StackDemo.Screen
           name="AddEmployee"
@@ -190,3 +60,131 @@ export default function App() {
     </NavigationContainer>
   );
 }
+
+
+
+
+
+
+
+const TabBottom = () => {
+  return (
+    <Tab.Navigator screenOptions={screenOptions}>
+      <Tab.Screen
+        name="SẢN PHẨM"
+        component={Product}
+        options={{
+          tabBarIcon: ({ focused }) => {
+            return (
+              <View style={{ alignItems: "center", justifyContent: "center" }}>
+                <MaterialIcons
+                  name="storefront"
+                  size={24}
+                  color={focused ? "#00A8AA" : "#6C6C6C"}
+                />
+                <Text
+                  style={{
+                    fontSize: 12,
+                    color: focused ? "#00A8AA" : "#6C6C6C",
+                  }}
+                >
+                  SẢN PHẨM
+                </Text>
+              </View>
+            );
+          },
+        }}
+      />
+      <Tab.Screen
+        name="HÓA ĐƠN"
+        component={Bill}
+        options={{
+          tabBarIcon: ({ focused }) => {
+            return (
+              <View style={{ alignItems: "center", justifyContent: "center" }}>
+                <MaterialIcons
+                  name="receipt-long"
+                  size={24}
+                  color={focused ? "#00A8AA" : "#6C6C6C"}
+                />
+                <Text
+                  style={{
+                    fontSize: 12,
+                    color: focused ? "#00A8AA" : "#6C6C6C",
+                  }}
+                >
+                  HÓA ĐƠN
+                </Text>
+              </View>
+            );
+          },
+        }}
+      />
+      <Tab.Screen
+        name="NHÂN VIÊN"
+        component={AddEmployee}
+        options={{
+          tabBarIcon: ({ focused }) => {
+            return (
+              <View style={{ alignItems: "center", justifyContent: "center" }}>
+                <MaterialIcons
+                  name="people-outline"
+                  size={24}
+                  color={focused ? "#00A8AA" : "#6C6C6C"}
+                />
+                <Text
+                  style={{
+                    fontSize: 12,
+                    color: focused ? "#00A8AA" : "#6C6C6C",
+                  }}
+                >
+                  NHÂN VIÊN
+                </Text>
+              </View>
+            );
+          },
+        }}
+      />
+      <Tab.Screen
+        name="THỐNG KÊ"
+        component={Statistical}
+        options={{
+          tabBarIcon: ({ focused }) => {
+            return (
+              <View style={{ alignItems: "center", justifyContent: "center" }}>
+                <MaterialIcons
+                  name="date-range"
+                  size={24}
+                  color={focused ? "#00A8AA" : "#6C6C6C"}
+                />
+                <Text
+                  style={{
+                    fontSize: 12,
+                    color: focused ? "#00A8AA" : "#6C6C6C",
+                  }}
+                >
+                  THỐNG KÊ
+                </Text>
+              </View>
+            );
+          },
+        }}
+      />
+    </Tab.Navigator>
+  );
+};
+
+const screenOptions = {
+  tabBarShowLabel: false,
+  headerShown: false,
+  tabBarStyle: {
+    position: "absolute",
+    bottom: 0,
+    right: 0,
+    left: 0,
+    elevation: 0,
+    height: 60,
+    background: "#fff",
+  },
+};
+
