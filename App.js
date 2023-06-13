@@ -1,10 +1,18 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { Text, View } from "react-native";
+import ListEmployee from "./components/Employee/ListEmployee";
+import AddEmployee2 from "./components/Employee/AddEmployee2";
+
+import List_Prod from "./components/Products/List_Prod";
+import Add_Prod from "./components/Products/Add_Prod";
+import Update_Prod from "./components/Products/Update_Prod";
+
+const StackDemo = createNativeStackNavigator();
+import { Text, View, StatusBar } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialIcons } from "@expo/vector-icons";
-import AddEmployee from "./components/Employee/AddEmployee";
-import AddEmployee2 from "./components/Employee/AddEmployee2";
+
+
 import Product from "./screens/Product";
 import Bill from "./screens/Bill";
 import Staff from "./screens/Staff";
@@ -13,58 +21,8 @@ import IntroHello from "./screens/intro/IntroHello";
 import IntroThankyou from "./screens/intro/IntroThankyou";
 import Login from "./screens/login/Login";
 import Register from "./screens/login/Register";
-
-const StackDemo = createNativeStackNavigator();
+import UpdateEmployee from "./components/Employee/UpdateScreen";
 const Tab = createBottomTabNavigator();
-
-
-
-export default function App() {
-  return (
-    <NavigationContainer>
-      <StackDemo.Navigator
-        // initialRouteName="TabBottom"
-        // initialRouteName="AddEmployee"
-        initialRouteName="IntroHello"
-        screenOptions={{
-          headerStyle: {
-            backgroundColor: "#03DAC6",
-          },
-          headerBackVisible: false,
-          headerShown: false,
-        }}
-      >
-        <StackDemo.Screen
-          name="TabBottom"
-          component={TabBottom}
-          options={{ headerShown: false }}
-        />
-        <StackDemo.Screen
-          name="AddEmployee"
-          component={AddEmployee}
-          options={{
-            headerShown: true,
-            headerTitle: "Nhân Viên",
-            // headerSearchBarOptions:
-          }}
-        />
-        <StackDemo.Screen
-          name="AddEmployee2"
-          component={AddEmployee2}
-          // options={{ headerShown: false }}
-        />
-        <StackDemo.Screen name="IntroHello" component={IntroHello} />
-        <StackDemo.Screen name="Login" component={Login} />
-        <StackDemo.Screen name="Register" component={Register} />
-      </StackDemo.Navigator>
-    </NavigationContainer>
-  );
-}
-
-
-
-
-
 
 
 const TabBottom = () => {
@@ -122,7 +80,7 @@ const TabBottom = () => {
       />
       <Tab.Screen
         name="NHÂN VIÊN"
-        component={AddEmployee}
+        component={ListEmployee}
         options={{
           tabBarIcon: ({ focused }) => {
             return (
@@ -188,3 +146,64 @@ const screenOptions = {
   },
 };
 
+export default function App() {
+  return (
+    <NavigationContainer>
+      <StackDemo.Navigator
+        initialRouteName="TabBottom"
+        // initialRouteName="ListEmployee"
+        // initialRouteName="IntroHello"
+        screenOptions={{
+          headerStyle: {
+            backgroundColor: "#03DAC6",
+          },
+          headerBackVisible: false,
+          headerShown: false,
+        }}
+      >
+        <StackDemo.Screen
+          name="TabBottom"
+          component={TabBottom}
+          options={{ headerShown: false }}
+        />
+        <StackDemo.Screen
+          name="ListEmployee"
+          component={ListEmployee}
+          options={{
+            headerShown: true,
+            headerTitle: "Nhân Viên",
+            // headerSearchBarOptions:
+          }}
+        />
+        <StackDemo.Screen
+          name="AddEmployee2"
+          component={AddEmployee2}
+          options={{ headerShown: true, headerBackVisible: true }}
+        />
+        <StackDemo.Screen
+          name="UpdateEmployee"
+          component={UpdateEmployee}
+          options={{
+            headerShown: true,
+            headerTitle: "Chỉnh sửa",
+            headerBackVisible: true,
+            // headerSearchBarOptions:
+          }}
+        />
+        <StackDemo.Screen name="IntroHello" component={IntroHello} />
+        <StackDemo.Screen name="Login" component={Login} />
+        <StackDemo.Screen name="Register" component={Register} />
+        <StackDemo.Screen
+          name="Add_Prod"
+          component={Add_Prod}
+          options={{ headerShown: false }}
+        />
+        <StackDemo.Screen
+          name="Update_Prod"
+          component={Update_Prod}
+          options={{ headerShown: false }}
+        />
+      </StackDemo.Navigator>
+    </NavigationContainer>
+  );
+}

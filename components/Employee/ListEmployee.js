@@ -9,17 +9,16 @@ import {
 import React from "react";
 import st from "./style";
 import { useState } from "react";
-
 import { FAB } from "@rneui/themed";
-import ItemEmployee from "./itemEmployee";
 import ModalEmployee from "./ModalEmployee";
+import env from "../../Env";
 
-const AddEmployee = (props) => {
+const ListEmployee = (props) => {
   //console.log(props);
   const [data_employee, setdata_employee] = useState([]);
 
   const getListEmployee = async () => {
-    let url_api = "http://192.168.1.23:3000/employee";
+    let url_api = env.url_Employ;
     try {
       const response = await fetch(url_api);
       const json = await response.json();
@@ -48,15 +47,15 @@ const AddEmployee = (props) => {
     </ScrollView>
   ) : (
     <View>
-      <ScrollView>
-        <FlatList
-          data={data_employee}
-          renderItem={({ item }) => (
-            <ModalEmployee nav={props.navigation} data={item} />
-          )}
-          keyExtractor={(item) => item._id}
-        />
-      </ScrollView>
+      <FlatList
+        style={{ marginBottom: 60 }}
+        data={data_employee}
+        renderItem={({ item }) => (
+          <ModalEmployee nav={props.navigation} data={item} />
+        )}
+        keyExtractor={(item) => item.id}
+      />
+
       <FAB
         onPress={goAddEmloyee2}
         visible={true}
@@ -72,4 +71,4 @@ const AddEmployee = (props) => {
   );
 };
 
-export default AddEmployee;
+export default ListEmployee;
