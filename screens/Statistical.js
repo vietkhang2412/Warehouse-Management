@@ -17,9 +17,13 @@ export default function Statistical() {
 
       <Tab.Navigator
         screenOptions={{
-          tabBarLabelStyle: { textTransform: 'none' ,fontWeight:"bold",fontSize:16 },
-          tabBarTabStyle: { width: 'auto' },
-        tabBarIndicatorStyle: { backgroundColor: '#03DAC6' },// Đổi chữ in hoa sang chữ thường
+          tabBarLabelStyle: {
+            textTransform: "none",
+            fontWeight: "bold",
+            fontSize: 16,
+          },
+          tabBarTabStyle: { width: "auto" },
+          tabBarIndicatorStyle: { backgroundColor: "#03DAC6" },
         }}
       >
         <Tab.Screen name="Thông kê số lượng" component={QuantityStats} />
