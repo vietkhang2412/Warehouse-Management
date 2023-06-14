@@ -5,6 +5,7 @@ import {
   Text,
   TouchableOpacity,
   FlatList,
+  TextInput,
 } from "react-native";
 import React from "react";
 import st from "./style";
@@ -12,10 +13,15 @@ import { useState } from "react";
 import { FAB } from "@rneui/themed";
 import ModalEmployee from "./ModalEmployee";
 import env from "../../Env";
+import { MaterialIcons } from "@expo/vector-icons";
 
 const ListEmployee = (props) => {
   //console.log(props);
   const [data_employee, setdata_employee] = useState([]);
+  const [searchResults, setSearchResults] = useState([]);
+  const [showFAB, setShowFAB] = useState(true);
+  const [searchText, setSearchText] = useState("");
+  const [showSearchInput, setShowSearchInput] = useState(false);
 
   const getListEmployee = async () => {
     let url_api = env.url_Employ;
@@ -26,13 +32,40 @@ const ListEmployee = (props) => {
     } catch (error) {}
   };
 
-  React.useEffect(() => {
-    getListEmployee();
-  });
-
   const goAddEmloyee2 = () => {
     props.navigation.navigate("AddEmployee2");
   };
+
+  //Tìm kiếm nhân viên
+
+  const handleCancel = () => {
+    setShowFAB(true);
+    setSearchText("");
+    setShowSearchInput(false);
+  };
+
+  const handleSearch = (query) => {
+    if (showSearchInput) {
+      // Xử lý khi người dùng bấm tìm kiếm
+      setShowFAB(false);
+      const results = data_employee.filter((item) =>
+        item.tenNV.toLowerCase().includes(query.toLowerCase())
+      );
+      setSearchResults(results);
+    } else {
+      setShowFAB(true);
+      setShowSearchInput(true);
+    }
+  };
+
+  React.useEffect(() => {
+    getListEmployee();
+    if (showSearchInput) {
+      handleSearch(searchText);
+    } else {
+      null;
+    }
+  }, [searchText]);
 
   // console.log(data_employee.length);
 
@@ -47,9 +80,39 @@ const ListEmployee = (props) => {
     </ScrollView>
   ) : (
     <View>
+      <View style={st.toolbar}>
+        {showSearchInput ? null : (
+          <View style={st.toolbar2}>
+            <Text style={{ color: "white", fontSize: 17, fontWeight: "bold" }}>
+              NHÂN VIÊN
+            </Text>
+            <TouchableOpacity onPress={handleSearch}>
+              <MaterialIcons name="search" size={24} color={"#FFF"} />
+            </TouchableOpacity>
+          </View>
+        )}
+
+        {showSearchInput ? (
+          <View style={st.searchWrapper}>
+            <TextInput
+              placeholder="Tìm kiếm"
+              style={st.textInput}
+              value={searchText}
+              onChangeText={setSearchText}
+              autoFocus
+              autoCorrect={false}
+              autoCapitalize="none"
+            />
+            <TouchableOpacity onPress={handleCancel}>
+              <MaterialIcons name="cancel" size={24} color={"#FFF"} />
+            </TouchableOpacity>
+          </View>
+        ) : null}
+      </View>
+
       <FlatList
-        style={{ marginBottom: 60 }}
-        data={data_employee}
+        style={{ marginBottom: "30%" }}
+        data={searchText ? searchResults : data_employee}
         renderItem={({ item }) => (
           <ModalEmployee nav={props.navigation} data={item} />
         )}
@@ -58,14 +121,14 @@ const ListEmployee = (props) => {
 
       <FAB
         onPress={goAddEmloyee2}
-        visible={true}
+        visible={showFAB}
         icon={{ name: "add", color: "black" }}
         color="green"
         title="Thêm nhân viên"
         placement="right"
         titleStyle={{ color: "black" }}
         buttonStyle={{ backgroundColor: "#53FDFF" }}
-        style={{ marginBottom: 70 }}
+        style={{ marginBottom: "27%" }}
       />
     </View>
   );
