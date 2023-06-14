@@ -159,6 +159,32 @@ const st = StyleSheet.create({
     justifyContent: "space-between",
     marginTop: 15,
   },
+
+  toolbar: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    backgroundColor: "#03DAC6",
+    paddingHorizontal: 16,
+    height: 56,
+    width: "100%",
+  },
+
+  toolbar2: {
+    flexDirection: "row",
+    width: "100%",
+    justifyContent: "space-between",
+  },
+
+  searchWrapper: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  textInput: {
+    marginLeft: 8,
+    flex: 1,
+  },
 });
 
 export default st;
