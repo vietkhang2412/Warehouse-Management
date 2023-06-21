@@ -34,7 +34,7 @@ const AddEmployee2 = (props) => {
     setSelectedItem(item);
   };
 
-  const addE = () => {
+  const addE = async () => {
     let objE = {
       maNV: maNV,
       tenNV: tenNV,
@@ -44,7 +44,18 @@ const AddEmployee2 = (props) => {
       chucVu: selectedItem.name,
     };
 
-    fetch(env.url_Employ, {
+    //validate
+    if (!maNV || !tenNV || !taiKhoan || !matKhau || !dienThoai) {
+      alert("Vui lòng nhập đầy đủ thông tin!");
+      return;
+    }
+    if (dienThoai.length != 10) {
+      console.log(dienThoai.length);
+      alert("Số điện thoại của bạn không hợp lệ!");
+      return;
+    }
+
+    await fetch(env.url_Employ, {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -86,7 +97,18 @@ const AddEmployee2 = (props) => {
             </View>
 
             <View style={{ marginBottom: 20 }}>
-              <Text style={st.title_field}>Tên Nhân Viên</Text>
+              <View style={{ flexDirection: "row" }}>
+                <Text style={st.title_field}>Tên Nhân Viên</Text>
+                <Text
+                  style={{
+                    color: "red",
+                    marginLeft: 5,
+                  }}
+                >
+                  *
+                </Text>
+              </View>
+
               <TextInput
                 style={st.textInput}
                 multiline={true}
@@ -98,7 +120,17 @@ const AddEmployee2 = (props) => {
             </View>
 
             <View style={{ marginBottom: 20 }}>
-              <Text style={st.title_field}>Tài Khoản</Text>
+              <View style={{ flexDirection: "row" }}>
+                <Text style={st.title_field}>Tài Khoản</Text>
+                <Text
+                  style={{
+                    color: "red",
+                    marginLeft: 5,
+                  }}
+                >
+                  *
+                </Text>
+              </View>
               <TextInput
                 style={st.textInput}
                 multiline={true}
@@ -110,7 +142,17 @@ const AddEmployee2 = (props) => {
             </View>
 
             <View style={{ marginBottom: 20 }}>
-              <Text style={st.title_field}>Mật Khẩu</Text>
+              <View style={{ flexDirection: "row" }}>
+                <Text style={st.title_field}>Mật Khẩu</Text>
+                <Text
+                  style={{
+                    color: "red",
+                    marginLeft: 5,
+                  }}
+                >
+                  *
+                </Text>
+              </View>
               <TextInput
                 style={st.textInput}
                 placeholder="Nhập mật khẩu"
@@ -124,7 +166,17 @@ const AddEmployee2 = (props) => {
             </View>
 
             <View style={{ marginBottom: 20 }}>
-              <Text style={st.title_field}>Số Điện Thoại</Text>
+              <View style={{ flexDirection: "row" }}>
+                <Text style={st.title_field}>Số Điện Thoại</Text>
+                <Text
+                  style={{
+                    color: "red",
+                    marginLeft: 5,
+                  }}
+                >
+                  *
+                </Text>
+              </View>
               <TextInput
                 style={st.textInput}
                 multiline={true}
@@ -138,6 +190,7 @@ const AddEmployee2 = (props) => {
 
           <View style={{ marginBottom: 20 }}>
             <Text style={st.title_field}>Chức Vụ</Text>
+
             <Dropdown data={data_NV} onSelect={onSelect} value={selectedItem} />
           </View>
 

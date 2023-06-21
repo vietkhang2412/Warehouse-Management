@@ -89,7 +89,17 @@ const UpdateEmployee = (props) => {
           </View>
 
           <View style={{ marginBottom: 20 }}>
-            <Text style={st.title_field}>Tên Nhân Viên</Text>
+            <View style={{ flexDirection: "row" }}>
+              <Text style={st.title_field}>Tên Nhân Viên</Text>
+              <Text
+                style={{
+                  color: "red",
+                  marginLeft: 5,
+                }}
+              >
+                *
+              </Text>
+            </View>
             <TextInput
               style={st.textInput}
               multiline={true}
@@ -102,7 +112,17 @@ const UpdateEmployee = (props) => {
           </View>
 
           <View style={{ marginBottom: 20 }}>
-            <Text style={st.title_field}>Tài Khoản</Text>
+            <View style={{ flexDirection: "row" }}>
+              <Text style={st.title_field}>Tài Khoản</Text>
+              <Text
+                style={{
+                  color: "red",
+                  marginLeft: 5,
+                }}
+              >
+                *
+              </Text>
+            </View>
             <TextInput
               style={st.textInput}
               multiline={true}
@@ -115,7 +135,17 @@ const UpdateEmployee = (props) => {
           </View>
 
           <View style={{ marginBottom: 20 }}>
-            <Text style={st.title_field}>Số Điện Thoại</Text>
+            <View style={{ flexDirection: "row" }}>
+              <Text style={st.title_field}>Số Điện Thoại</Text>
+              <Text
+                style={{
+                  color: "red",
+                  marginLeft: 5,
+                }}
+              >
+                *
+              </Text>
+            </View>
             <TextInput
               style={st.textInput}
               multiline={true}
@@ -131,6 +161,7 @@ const UpdateEmployee = (props) => {
         {/* <View style={st.containerDropdown}> */}
         <View style={{ marginBottom: 20 }}>
           <Text style={st.title_field}>Chức Vụ</Text>
+
           <Dropdown data={data_NV} onSelect={onSelect} value={selectedItem} />
         </View>
 
