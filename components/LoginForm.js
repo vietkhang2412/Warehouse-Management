@@ -65,17 +65,14 @@ export default function LoginForm({ isSignUp, navigation }) {
           pass,
         });
 
-        Alert.alert("Thông báo", "Đăng ký thành công.", [
-          {
-            text: "Đăng nhập ngay.",
-            onPress: () => {
-              console.log("Họ Tên:", response.data.fullName);
-              console.log("Tài khoản:", response.data.username);
-              console.log("Mật khẩu:", response.data.password);
-              navigation.navigate("Login");
-            },
-          },
-        ]);
+        Alert.alert("Thông báo", "Đăng ký thành công.");
+
+        setTimeout(() => {
+          console.log("Họ Tên:", response.data.fullName);
+          console.log("Tài khoản:", response.data.username);
+          console.log("Mật khẩu:", response.data.password);
+          navigation.navigate("Login");
+        }, 2000); // Đợi 2 giây trước khi chuyển sang màn hình đăng nhập
       } catch (error) {
         console.error("Đăng ký thất bại:", error);
       }
@@ -110,8 +107,6 @@ export default function LoginForm({ isSignUp, navigation }) {
       errors.fullName = "Họ tên không được để trống!";
     } else if (fullName.length > 24) {
       errors.fullName = "Họ tên quá dài!";
-    } else if (fullName.length <= 15) {
-      errors.fullName = "Họ tên không hợp lệ!";
     }
 
     if (!username.trim()) {
