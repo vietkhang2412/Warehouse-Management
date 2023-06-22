@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   FlatList,
   TextInput,
+  RefreshControl,
 } from "react-native";
 import React from "react";
 import st from "./style";
@@ -17,6 +18,8 @@ import { MaterialIcons } from "@expo/vector-icons";
 
 const ListEmployee = (props) => {
   //console.log(props);
+  const [isLoading, setisLoading] = useState(true);
+  const [isReloading, setisReloading] = useState(false);
   const [data_employee, setdata_employee] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
   const [showFAB, setShowFAB] = useState(true);
@@ -67,6 +70,16 @@ const ListEmployee = (props) => {
     }
   }, [searchText]);
 
+  const reloadData = React.useCallback(() => {
+    //Đánh dấu trạng thái đang reload
+    setisReloading(true);
+    //công việc xủ lý load lại dữ liệu
+    setTimeout(() => {
+      getListEmployee();
+      setisReloading(false);
+    }, 1500);
+  });
+
   // console.log(data_employee.length);
 
   return data_employee.length == 0 ? (
@@ -79,7 +92,7 @@ const ListEmployee = (props) => {
       </View>
     </ScrollView>
   ) : (
-    <View>
+    <View style={st.container_list}>
       <View style={st.toolbar}>
         {showSearchInput ? null : (
           <View style={st.toolbar2}>
@@ -96,7 +109,7 @@ const ListEmployee = (props) => {
           <View style={st.searchWrapper}>
             <TextInput
               placeholder="Tìm kiếm"
-              style={st.textInput}
+              style={st.textInput2}
               value={searchText}
               onChangeText={setSearchText}
               autoFocus
@@ -111,6 +124,9 @@ const ListEmployee = (props) => {
       </View>
 
       <FlatList
+        refreshControl={
+          <RefreshControl refreshing={isReloading} onRefresh={reloadData} />
+        }
         style={{ marginBottom: "30%" }}
         data={searchText ? searchResults : data_employee}
         renderItem={({ item }) => (

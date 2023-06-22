@@ -12,8 +12,9 @@ const st = StyleSheet.create({
     padding: 10,
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: "#d1e0e0",
-    elevation: 0,
+
+    borderColor: "#84A7A1",
+
   },
   image_item: {
     width: 66,
@@ -50,6 +51,9 @@ const st = StyleSheet.create({
     // backgroundColor: "red",
     justifyContent: "center",
     alignItems: "center",
+  },
+  container_list: {
+    height: "108%",
   },
 
   btn_add: {
@@ -181,7 +185,7 @@ const st = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
-  textInput: {
+  textInput2: {
     marginLeft: 8,
     flex: 1,
   },

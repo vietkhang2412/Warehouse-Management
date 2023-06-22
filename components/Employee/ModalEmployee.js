@@ -20,7 +20,7 @@ const ModalEmployee = (props) => {
     props.nav.navigate("UpdateEmployee", { item: props.data });
   };
 
-  const deleteEmployee = () => {
+  const deleteEmployee = async () => {
     let url_api_delete = env.url_Employ_del + props.data.id;
     Alert.alert("Thông Báo!", "Bạn có chắc muốn xóa?", [
       {
@@ -36,6 +36,7 @@ const ModalEmployee = (props) => {
             .then((res) => {
               if (res.status == 200) {
                 alert("Xóa thành công!");
+                setModalVisible(!isModalVisible);
               }
             })
             .catch((ex) => {

@@ -178,7 +178,11 @@ export default function App() {
         <StackDemo.Screen
           name="AddEmployee2"
           component={AddEmployee2}
-          options={{ headerShown: true, headerBackVisible: true }}
+          options={{
+            headerShown: true,
+            headerBackVisible: true,
+            title: "Thêm nhân viên",
+          }}
         />
         <StackDemo.Screen
           name="UpdateEmployee"
