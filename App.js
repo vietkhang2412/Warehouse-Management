@@ -30,7 +30,7 @@ const TabBottom = () => {
     <Tab.Navigator screenOptions={screenOptions}>
       <Tab.Screen
         name="SẢN PHẨM"
-        component={Product}
+        component={List_Prod}
         options={{
           tabBarIcon: ({ focused }) => {
             return (
@@ -200,6 +200,11 @@ export default function App() {
         <StackDemo.Screen
           name="Add_Prod"
           component={Add_Prod}
+          options={{ headerShown: false }}
+        />
+        <StackDemo.Screen
+          name="List_Prod"
+          component={List_Prod}
           options={{ headerShown: false }}
         />
         <StackDemo.Screen

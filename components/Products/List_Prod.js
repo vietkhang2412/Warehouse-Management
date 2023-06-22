@@ -199,7 +199,7 @@ const List_Prod = (props) => {
           }
         >
           <View>
-            <ScrollView>
+            <ScrollView horizontal={true} style={{ width: '100%' }}>
               {isLoading ? (
                 <ActivityIndicator />
               ) : (

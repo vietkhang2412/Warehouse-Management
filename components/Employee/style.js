@@ -12,7 +12,9 @@ const st = StyleSheet.create({
     padding: 10,
     borderRadius: 10,
     borderWidth: 1,
+
     borderColor: "#84A7A1",
+
   },
   image_item: {
     width: 66,

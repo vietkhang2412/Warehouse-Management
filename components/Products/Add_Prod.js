@@ -11,6 +11,9 @@ import styles from "./style";
 import env from "../../Env";
 import { MaterialIcons } from "@expo/vector-icons";
 
+import * as ImagePicker from 'expo-image-picker';
+import * as FileSystem from 'expo-file-system';
+
 //npm install @rneui/themed @rneui/base
 
 const Add_Prod = (props) => {
@@ -20,6 +23,60 @@ const Add_Prod = (props) => {
   const [prod_price, setprod_price] = useState("");
   const [prod_qty, setprod_qty] = useState(1);
   const [image, setimage] = useState("");
+
+
+  const pickImage = async () => {
+    // Đọc ảnh từ thư viện thì không cần khai báo quyền
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [3, 3], // khung view cắt ảnh 
+      quality: 1,
+    });
+
+    // console.log(result);
+
+    if (!result.canceled) {
+      // setimg_source(result.assets[0].uri);
+      // chuyển ảnh thành base64 để upload lên json
+      let _uri = result.assets[0].uri;  // địa chỉ file ảnh đã chọn
+      let file_ext = _uri.substring(_uri.lastIndexOf('.') + 1); // lấy đuôi file
+      FileSystem.readAsStringAsync(_uri, { encoding: 'base64' })
+        .then((res) => {
+          // phải nối chuỗi với tiền tố data image
+          setimage("data:image/" + file_ext + ";base64," + res);
+          // console.log(img_base64);
+          // upload ảnh lên api thì dùng PUT có thể viết ở đây
+        });
+    }
+  }
+
+  const takePhoto = async () => {
+    // Đọc ảnh từ thư viện thì không cần khai báo quyền
+    let result = await ImagePicker.launchCameraAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [3, 3], // khung view cắt ảnh 
+      quality: 1,
+    });
+
+    // console.log(result);
+
+    if (!result.canceled) {
+      // setimg_source(result.assets[0].uri);
+      // chuyển ảnh thành base64 để upload lên json
+      let _uri = result.assets[0].uri;  // địa chỉ file ảnh đã chọn
+      let file_ext = _uri.substring(_uri.lastIndexOf('.') + 1); // lấy đuôi file
+      FileSystem.readAsStringAsync(_uri, { encoding: 'base64' })
+        .then((res) => {
+          // phải nối chuỗi với tiền tố data image
+          setimage("data:image/" + file_ext + ";base64," + res);
+          // console.log(img_base64);
+          // upload ảnh lên api thì dùng PUT có thể viết ở đây
+        });
+    }
+  }
+
 
   const Save_Prod = () => {
     let obj_prod = {
@@ -69,7 +126,7 @@ const Add_Prod = (props) => {
       .then((res) => {
         if (res.status == 201) {
           alert("Thêm sản phẩm thành công!");
-          props.navigation.navigate("List_Prod");
+          props.navigation.goBack();
         }
       })
       .catch((ex) => {
@@ -91,7 +148,7 @@ const Add_Prod = (props) => {
     <View style={{ flex: 1, backgroundColor: "white" }}>
       <View style={styles.toolbar}>
         <TouchableOpacity
-          onPress={() => props.navigation.navigate("List_Prod")}
+          onPress={() => props.navigation.goBack()}
         >
           <MaterialIcons name="arrow-back" size={24} color={"#FFF"} />
         </TouchableOpacity>
@@ -107,18 +164,23 @@ const Add_Prod = (props) => {
         </Text>
       </View>
       <View style={styles.add_img}>
-        <TouchableOpacity style={styles.btn_add_img}>
-          <Text style={styles.text_add_img}>
-            <Image source={require("../../assets/imgProd/Vector.png")} /> Tải
-            ảnh lên
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.btn_add_img}>
-          <Text style={styles.text_add_img}>
-            <Image source={require("../../assets/imgProd/camera.png")} /> Chụp
-            ảnh
-          </Text>
-        </TouchableOpacity>
+        <View style={{ flexDirection: 'column' }}>
+          <TouchableOpacity onPress={pickImage} style={styles.btn_add_img}>
+            <Text style={styles.text_add_img} >
+              <Image source={require("../../assets/imgProd/Vector.png")} /> Tải
+              ảnh lên
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={takePhoto} style={styles.btn_add_img}>
+            <Text style={styles.text_add_img}>
+              <Image source={require("../../assets/imgProd/camera.png")} /> Chụp
+              ảnh
+            </Text>
+          </TouchableOpacity>
+        </View>
+        <View>
+          {image != null ? <Image source={{ uri: image }} style={styles.img_box} /> : null}
+        </View>
       </View>
       <Text style={styles.title}>
         Mã sản phẩm<Text style={styles.red}> *</Text>
