@@ -43,7 +43,7 @@ const ModalEmployee = (props) => {
             });
         },
       },
-      { text: "Cancel", onPress: () => {} },
+      { text: "Cancel", onPress: () => { } },
     ]);
   };
 

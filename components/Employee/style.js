@@ -13,7 +13,7 @@ const st = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 1,
     borderColor: "#d1e0e0",
-    elevation: 3,
+    elevation: 0,
   },
   image_item: {
     width: 66,
