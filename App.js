@@ -22,6 +22,7 @@ import IntroThankyou from "./screens/intro/IntroThankyou";
 import Login from "./screens/login/Login";
 import Register from "./screens/login/Register";
 import UpdateEmployee from "./components/Employee/UpdateScreen";
+import DetailHD from "./components/Bill/DetailHD";
 const Tab = createBottomTabNavigator();
 
 
@@ -150,9 +151,9 @@ export default function App() {
   return (
     <NavigationContainer>
       <StackDemo.Navigator
-        initialRouteName="TabBottom"
+        //initialRouteName="TabBottom"
         // initialRouteName="ListEmployee"
-        // initialRouteName="IntroHello"
+        initialRouteName="IntroHello"
         screenOptions={{
           headerStyle: {
             backgroundColor: "#03DAC6",
@@ -197,6 +198,7 @@ export default function App() {
         <StackDemo.Screen name="IntroHello" component={IntroHello} />
         <StackDemo.Screen name="Login" component={Login} />
         <StackDemo.Screen name="Register" component={Register} />
+        <StackDemo.Screen name="Detail" component={DetailHD} />
         <StackDemo.Screen
           name="Add_Prod"
           component={Add_Prod}

@@ -6,7 +6,7 @@ import React, { useEffect, useState } from 'react';
 import Toolbar from '../components/toolbar';
 import ModalAddHD from '../modal/Modal_AddHD';
 import { MaterialIcons } from '@expo/vector-icons';
-
+import DetailHD from '../components/Bill/DetailHD';
 
 
 export default function Bill(props) {
@@ -22,6 +22,10 @@ export default function Bill(props) {
 
   const openModal = () => {
     setShowModalDialog(true);
+  };
+
+  const openDetail = (item) => {
+    props.navigation.navigate("Detail", { item: item });
   };
 
   const [buttonWidth, setButtonWidth] = useState(0);
@@ -56,17 +60,6 @@ export default function Bill(props) {
     }
   }
 
-  // const [isReloading, setisReloading] = useState(false)
-  // const reloadData = React.useCallback(
-  //   () => {
-  //     // đánh dấu trạng thái đang reload để hiển thị quay quay
-  //     setisReloading(true);
-  //     // các công việc xử lý load lại dữ liệu viết ở dưới đây
-  //     getData()
-  //   }
-
-  // );
-
   const renderData = ({ item }) => {
 
     const calculateTotal = (item) => {
@@ -74,15 +67,15 @@ export default function Bill(props) {
 
       for (let i = 0; i < item.dsSanPham.length; i++) {
         if (item.quantity[item.dsSanPham[i].id] !== undefined) {
-          totalMoney.push(item.dsSanPham[i].price * item.quantity[item.dsSanPham[i].id]);
+          totalMoney.push(item.dsSanPham[i].prod_price * item.quantity[item.dsSanPham[i].id]);
         } else {
-          totalMoney.push(item.dsSanPham[i].price);
+          totalMoney.push(item.dsSanPham[i].prod_price);
         }
       }
 
       let totalPay = totalMoney.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
 
-      const totalString = totalPay + "000";
+      const totalString = totalPay + "";
 
       const parts = totalString.split(".");
 
@@ -93,12 +86,23 @@ export default function Bill(props) {
     };
 
     return (
-      <View style={{ borderWidth: 1.5, marginHorizontal:20 , marginTop:20 , height: 125, borderRadius: 15, borderColor: 'rgba(0, 0, 0, 0.3)', paddingVertical: 10, paddingHorizontal: 20 }}>
+      <TouchableOpacity style={{
+        borderWidth: 1.5,
+        marginHorizontal: 20,
+        marginTop: 20,
+        height: 125,
+        borderRadius: 15,
+        borderColor: 'rgba(0, 0, 0, 0.3)',
+        paddingVertical: 10,
+        paddingHorizontal: 20
+      }}
+        onPress={() => openDetail(item)}
+      >
         <Text style={{ fontWeight: 'bold', fontSize: 16 }}>DH {item.loaiHoaDon} - {item.date}</Text>
         <Text>{item.maHoaDon}</Text>
         <Text>{item.maNhanVien} - Đào Duy Lâm</Text>
         <Text style={{ alignSelf: 'flex-end', marginTop: 5, fontSize: 20, fontWeight: 'bold' }}>{calculateTotal(item)} đ</Text>
-      </View>
+      </TouchableOpacity>
     )
   }
 
@@ -143,17 +147,16 @@ export default function Bill(props) {
               data={data}
               keyExtractor={(item) => { return item.id }}
               renderItem={renderData}
+              style={{ marginBottom: 100 }}
             />
           )
         }
-        <View style={styles.addContainer}>
-          <TouchableOpacity style={styles.btnAdd} onPress={openModal}>
-            <View style={styles.add}>
-              <MaterialIcons name='add' size={24} color={'black'} style={{ marginRight: 10 }} />
-              <Text style={{ fontWeight: 'bold', marginRight: 10 }}>THÊM HÓA ĐƠN</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
+        <TouchableOpacity style={styles.btnAdd} onPress={openModal}>
+          <View style={styles.add}>
+            <MaterialIcons name='add' size={24} color={'black'} style={{ marginRight: 10 }} />
+            <Text style={{ fontWeight: 'bold', marginRight: 10 }}>THÊM HÓA ĐƠN</Text>
+          </View>
+        </TouchableOpacity>
       </View>)}
       <ModalAddHD showModalDialog={showModalDialog} setShowModalDialog={setShowModalDialog} />
     </SafeAreaView>
@@ -179,14 +182,6 @@ const styles = StyleSheet.create({
     height: 56,
     width: '100%',
   },
-  addContainer: {
-    marginHorizontal: 20,
-    justifyContent: 'flex-end',
-    marginBottom: 70,
-    width: 185,
-    borderRadius: 50,
-    alignSelf: 'flex-end'
-  },
   add: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -196,9 +191,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   btnAdd: {
+    position: 'absolute',
+    width: 185,
+    height: 48,
     alignSelf: 'flex-end',
-    justifyContent: 'flex-end',
     borderRadius: 50,
-    backgroundColor: '#53FDFF'
+    backgroundColor: '#53FDFF',
+    bottom: 70,
+    right: 10
   }
 })

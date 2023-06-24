@@ -1,15 +1,27 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity, Dimensions, Modal, FlatList, ScrollView, TextInput } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
-import DropDownPicker from 'react-native-dropdown-picker';
 import ModalListProduct from "./Modal_ListProduct";
+import ModalLoaiHD from "./ModalLoaiHD";
+import env from "../Env";
 
-
+let loai = [
+    { id: "Nhập", name: "Nhập" },
+    { id: "Xuất", name: "Xuất" }
+]
 const ModalAddHD = ({ showModalDialog, setShowModalDialog }) => {
 
     const [dataModalProduct, setDataModalProduct] = useState([]);
 
     const [showModalListProduct, setShowModalListProduct] = useState(false);
+
+    const [selectedItem, setSelectedItem] = useState({ id: "Nhập", name: "Nhập" })
+
+    const onSelect = (item) => {
+        setSelectedItem(item)
+    }
+
+    const [showModalLoaiHD, setShowModalLoaiHD] = useState(false);
 
     const [buttonWidth, setButtonWidth] = useState(0);
     const [buttonHeight, setButtonHeight] = useState(0);
@@ -30,12 +42,9 @@ const ModalAddHD = ({ showModalDialog, setShowModalDialog }) => {
         setShowModalListProduct(true);
     };
 
-    const [open, setOpen] = useState(false);
-    const [value, setValue] = useState('Nhập');
-    const [items, setItems] = useState([
-        { label: 'Nhập', value: 'Nhập' },
-        { label: 'Xuất', value: 'Xuất' }
-    ]);
+    const openModalLoaiHD = () => {
+        setShowModalLoaiHD(!showModalLoaiHD);
+    };
 
     const closeModal = () => {
         setDataModalProduct([]);
@@ -54,16 +63,49 @@ const ModalAddHD = ({ showModalDialog, setShowModalDialog }) => {
     const currentDate = new Date();
     const formattedDate = currentDate.toLocaleDateString();
 
+    const [data, setData] = useState([]); // chứa sản phẩm
+    // xử lý hiển thị dữ liệu
+    const getData = async () => {
+        let url_api = 'https://6469a718183682d61443f974.mockapi.io/hoadon';
+        try {
+            const response = await fetch(url_api);  // lấy dữ liệu về
+            const jsonHD = await response.json(); // chuyển dữ liệu thành đối tượng json
+            setData(jsonHD);
+        } catch (error) {
+            console.error(error);
+        } finally {
+            // kết thúc quá trình thực hiện trong try, dù xảy ra lỗi hay không cũng gọi vào đây
+            // đổi trạng thái isLoading là false
+        }
+    }
+
+    useEffect(() => {
+        if (showModalDialog) {
+            getData();
+        }
+    }, [showModalDialog]);
+
+    const [maHD, setMaHD] = useState('');
+
+    useEffect(() => {
+        updateMaHD();
+    }, []); // Gọi updateMaHD khi component được khởi tạo
+
+    const updateMaHD = () => {
+        const newMaHD = (selectedItem.name.match('Nhập') ? 'HDN' : 'HDX') + '_' + formattedDate.split('/').join('') + '_S' + (Number(data.length) + 1);
+        setMaHD(newMaHD);
+    };
+
     const SaveData = () => {
-        let maHoaDon = 'HDN_221130_S01';
+        let maHoaDon = maHD;
         let maNhanVien = 'NV003';
-        let loaiHoaDon = value;
+        let loaiHoaDon = selectedItem.name;
         let dsSanPham = dataModalProduct;
         let date = formattedDate;
         let quantity = itemQuantities;
         // 1. tạo obj 
         let objHD = {
-            maHoaDon, maNhanVien, loaiHoaDon, dsSanPham , date , quantity
+            maHoaDon, maNhanVien, loaiHoaDon, dsSanPham, date, quantity
         };
 
         //2. Dùng fetch:
@@ -79,7 +121,7 @@ const ModalAddHD = ({ showModalDialog, setShowModalDialog }) => {
         })
             .then((response) => {
                 // nếu log là 201 thì là tạo thành công
-                if (response.status == 201){closeModal()}
+                if (response.status == 201) { closeModal() }
             })
             .catch((err) => {  // catch để bắt lỗi ngoại lệ
                 console.log(err);
@@ -112,14 +154,27 @@ const ModalAddHD = ({ showModalDialog, setShowModalDialog }) => {
         };
 
 
+        const calculatePrice = (item) => {
+            const priceString = item.prod_price;
+            const parts = priceString.split(".");
+
+            const integerPart = parts[0];
+            const decimalPart = parts[1] || "";
+
+            return (
+                integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ".") +
+                (decimalPart.length > 0 ? "." + decimalPart : "")
+            );
+        };
+
         return (
             <View style={styles.listProduct}>
                 <Image source={{ uri: item.image }} style={{ width: 70, height: 70 }} />
                 <View style={{ flex: 1, justifyContent: 'center' }}>
-                    <Text style={styles.nameProduct}>{item.productName}</Text>
+                    <Text style={styles.nameProduct}>{item.prod_name}</Text>
                     <View style={{ flexDirection: "row", marginLeft: 10 }}>
                         <Text style={{ color: 'gray', fontSize: 12 }} >Giá bán: </Text>
-                        <Text style={{ color: 'red', fontSize: 12 }} >{item.price}.000 đ</Text>
+                        <Text style={{ color: 'red', fontSize: 12 }} >{calculatePrice(item)} đ</Text>
                     </View>
                     <View style={styles.quantity}>
                         <TouchableOpacity style={styles.upAndDown} onPress={down}>
@@ -133,14 +188,23 @@ const ModalAddHD = ({ showModalDialog, setShowModalDialog }) => {
                                 keyboardType="numeric"
                                 onChangeText={(text) => {
                                     const parsedValue = parseInt(text) || 0;
-                                    setItemQuantities((prevState) => ({
-                                        ...prevState,
-                                        [item.id]: parsedValue,
-                                    }));
+                                    if (selectedItem.name.match('Xuất')) {
+                                        if (parsedValue <= item.prod_qty) {
+                                            setItemQuantities((prevState) => ({
+                                                ...prevState,
+                                                [item.id]: parsedValue,
+                                            }));
+                                        }
+                                    } else {
+                                        setItemQuantities((prevState) => ({
+                                            ...prevState,
+                                            [item.id]: parsedValue,
+                                        }));
+                                    }
                                 }}
                             />
                         </View>
-                        <TouchableOpacity style={styles.upAndDown} onPress={up}>
+                        <TouchableOpacity style={styles.upAndDown} onPress={up} disabled={selectedItem.name == 'Xuất' && quantity >= item.prod_qty ? true : false}>
                             <MaterialIcons name="add" size={15} color={'black'} />
                         </TouchableOpacity>
                     </View>
@@ -171,7 +235,7 @@ const ModalAddHD = ({ showModalDialog, setShowModalDialog }) => {
                     <View style={styles.contentContainer}>
                         <View>
                             <Text style={styles.title}>MÃ HÓA ĐƠN</Text>
-                            <Text style={styles.content}>HDN_221130_S01</Text>
+                            <Text style={styles.content}>{maHD}</Text>
                         </View>
                         <View>
                             <Text style={styles.title}>MÃ NHÂN VIÊN</Text>
@@ -179,20 +243,18 @@ const ModalAddHD = ({ showModalDialog, setShowModalDialog }) => {
                         </View>
                         <View>
                             <Text style={styles.title}>LOẠI HÓA ĐƠN</Text>
-                            <DropDownPicker
-                                open={open}
-                                value={value}
-                                items={items}
-                                setOpen={setOpen}
-                                setValue={setValue}
-                                setItems={setItems}
-                                style={{
-                                    borderWidth: 0,
-                                    width: '104%',
-                                    alignSelf: "center"
-                                }}
-                            />
-                            <View style={styles.line}></View>
+                            <View style={{ height: 15 }}></View>
+                            <TouchableOpacity onPress={openModalLoaiHD} activeOpacity={0.7}>
+                                <ModalLoaiHD
+                                    showModalLoaiHD={showModalLoaiHD}
+                                    setShowModalLoaiHD={setShowModalLoaiHD}
+                                    data={loai}
+                                    value={selectedItem}
+                                    onSelect={onSelect} />
+                                <Text style={styles.content}>{selectedItem.name}</Text>
+                                <View style={{ height: 15 }}></View>
+                                <View style={styles.line}></View>
+                            </TouchableOpacity>
                         </View>
                         <View>
                             <Text style={styles.title}>THÊM SẢN PHẨM</Text>
@@ -220,7 +282,7 @@ const ModalAddHD = ({ showModalDialog, setShowModalDialog }) => {
                                 justifyContent: 'center',
                                 alignItems: 'center',
                                 borderRadius: 8
-                            }} onPress={SaveData} >
+                            }} onPress={SaveData}>
                                 <Text style={{ fontSize: 14, fontWeight: 'bold' }}>XÁC NHẬN</Text>
                             </TouchableOpacity>
                         </View>
@@ -261,7 +323,7 @@ const styles = StyleSheet.create({
     },
     content: {
         color: '#ADADAD',
-        fontSize: 15
+        fontSize: 17
     },
     line: {
         borderBottomWidth: 1,

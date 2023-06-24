@@ -15,6 +15,7 @@ import styles from "./style";
 import Toolbar from "../toolbar";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Button } from "@rneui/themed";
+import axios from 'axios';
 
 // import { Toolbar, ToolbarBackAction, ToolbarContent, ToolbarAction } from 'react-native-paper';
 //json-server --watch Products.json  -H 192.168.0.103
@@ -96,9 +97,75 @@ const List_Prod = (props) => {
     );
   };
 
-  useEffect(() => {
-    getList();
-  });
+  // xử lý hiển thị dữ liệu
+  const getData = async () => {
+    let url_api = 'https://6469a718183682d61443f974.mockapi.io/hoadon';
+    try {
+      const response = await fetch(url_api);  // lấy dữ liệu về
+      const jsonHD = await response.json(); // chuyển dữ liệu thành đối tượng json
+      for (let j = 0; j < jsonHD.length; j++) {
+        const keys = Object.keys(jsonHD[j].quantity);
+        const values = Object.values(jsonHD[j].quantity);
+        for (let i = 0; i < keys.length; i++) {
+
+          const response = await fetch(env.url_prod_del + keys[i]);
+          const jsonSP = await response.json();
+
+          let obj_prod = {
+            prod_code: jsonSP.prod_code,
+            prod_name: jsonSP.prod_name,
+            prod_costprice: jsonSP.prod_costprice,
+            prod_price: jsonSP.prod_price,
+            prod_qty: jsonHD[j].loaiHoaDon == 'Nhập' ? (Number(jsonSP.prod_qty) + Number(values[i])) : (Number(jsonSP.prod_qty) - Number(values[i])),
+            image: jsonSP.image,
+          };
+
+          let url_api = env.url_prod_del + keys[i];
+
+          fetch(url_api, {
+            method: "PUT",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(obj_prod),
+          })
+            .catch((ex) => {
+
+          });
+        }
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      // kết thúc quá trình thực hiện trong try, dù xảy ra lỗi hay không cũng gọi vào đây
+      // đổi trạng thái isLoading là false
+    }
+  }
+
+
+  // Gọi hàm để lấy dữ liệu và cập nhật số lượng
+  const fetchData = async () => {
+    try {
+      await getData(); // Lấy dữ liệu
+      await getList(); // Cập nhật số lượng sản phẩm
+    } catch (error) {
+      console.error(error);
+    } finally {
+      // Kết thúc quá trình thực hiện, thực hiện các công việc khác
+    }
+  };
+
+
+  React.useEffect(() => {
+    const unsubscribe = props.navigation.addListener('focus', () => {
+      // khi màn hình được hiển thị sẽ gọi vào hàm này
+      // gọi hàm load dữ liệu
+      fetchData();
+    });
+
+    return unsubscribe;
+  }, [props.navigation]);
 
   const reloadData = React.useCallback(() => {
     //Đánh dấu trạng thái đang reload

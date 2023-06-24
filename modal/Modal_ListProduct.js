@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity, Dimensions, Modal, ActivityIndicator, FlatList, ScrollView, TextInput } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
+import env from "../Env";
 
 
 const ProductItem = ({ item, handleScrollEnd, setListChecked, dataChecked, listChecked }) => {
@@ -28,6 +29,17 @@ const ProductItem = ({ item, handleScrollEnd, setListChecked, dataChecked, listC
     };
 
 
+    const calculateTotal = (price) => {
+  
+        const parts = price.split(".");
+  
+        const integerPart = parts[0];
+        const decimalPart = parts[1] || "";
+  
+        return integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ".") + (decimalPart.length > 0 ? "." + decimalPart : "");
+      };
+
+
     return (
         <ScrollView onScroll={handleScrollEnd}>
             <TouchableOpacity
@@ -40,17 +52,17 @@ const ProductItem = ({ item, handleScrollEnd, setListChecked, dataChecked, listC
                     <MaterialIcons name="check-box-outline-blank" size={24} color="black" />
                 )}
                 <View style={{ flexDirection: "row", paddingVertical: 10 }}>
-                    <Image source={{ uri: item.image }} style={{ width: 100, height: 100 }} />
+                    <Image source={{ uri: item.image }} style={{ width: 100, height: 100, marginLeft:5 }} />
                     <View style={{ justifyContent: "center" }}>
-                        <Text style={styles.checkboxLabel}>{item.productName}</Text>
+                        <Text style={styles.checkboxLabel}>{item.prod_name}</Text>
                         <View style={{ flexDirection: "column", marginLeft: 8, marginTop: 5 }}>
                             <View style={{ flexDirection: "row" }}>
                                 <Text>Tồn kho: </Text>
-                                <Text>{item.tonkho}</Text>
+                                <Text>{item.prod_qty}</Text>
                             </View>
                             <View style={{ flexDirection: "row" }}>
                                 <Text>Giá bán: </Text>
-                                <Text style={{color:'red'}} >{item.price}.000 đ</Text>
+                                <Text style={{color:'red'}} >{calculateTotal(item.prod_price)} đ</Text>
                             </View>
                         </View>
                     </View>
@@ -95,10 +107,8 @@ const ModalListProduct = ({ showModalListProduct, setShowModalListProduct, setDa
     const [data, setData] = useState([]); // chứa sản phẩm
     // xử lý hiển thị dữ liệu
     const getData = async () => {
-        let url_api = 'https://6469a718183682d61443f974.mockapi.io/product';
-
         try {
-            const response = await fetch(url_api);  // lấy dữ liệu về
+            const response = await fetch(env.url_Prod);  // lấy dữ liệu về
             const jsonSP = await response.json(); // chuyển dữ liệu thành đối tượng json
             setData(jsonSP);
             //console.log(jsonSP);
